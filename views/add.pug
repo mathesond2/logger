@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 Add an issue
+  select
+  each val in blah
+    option(value=val.url)
+  form.form(action="/add" method="POST")
+    label(for="description") Issue Description
+    textarea(name="description") 
+    input.button(type="submit" value="add")

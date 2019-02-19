@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  if (!user)
+    p please <a href="/login/github">Log In with Github</a>
+  else
+    p Welcome, #{user.username}!
+    form.form(action="/registerOrg" method="POST")
+      h2 Register
+      label(for="orgName") Organization Name
+      input(type="text" name="orgName") 
+      input.button(type="submit" value="Register")
