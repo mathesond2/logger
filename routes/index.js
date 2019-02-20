@@ -1,20 +1,38 @@
 const express = require('express');
 const router = express.Router();
 const github = require('octonode');
+const fs = require("fs");
+const currentOrgCredentials = require("./../orgCredentials.json");
 let client;
 let ghorg;
 let orgRepos = [];
+let correctCredentials;
 
 router.get('/', function (req, res, next) {
-  res.render('index', { user: req.user });
+  currentOrgCredentials.token && correctCredentials ? res.redirect('/add') : res.render('index');
+});
+
+router.get('/changeCredentials', function (req, res, next) {
+  correctCredentials = false;
+  res.redirect('/');
 });
 
 router.post('/registerOrg', function (req, res, next) {
   client = github.client(req.body.token);
   ghorg = client.org(req.body.orgName);
   ghorg.repos((err, data, headers) => {
-    handleUserData(data);
-    res.redirect('/add');
+    if (err) {
+      res.redirect('/');
+    } else {
+      const orgCredentials = {
+        token: req.body.token,
+        orgName: req.body.orgName,
+      };
+      fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
+      correctCredentials = true;
+      handleUserData(data);
+      res.redirect('/add');
+    }
   });
 
   function handleUserData(data) {
