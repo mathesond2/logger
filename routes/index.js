@@ -9,7 +9,7 @@ let orgRepos = [];
 let correctCredentials;
 
 router.get('/', function (req, res, next) {
-  currentOrgCredentials.token && correctCredentials ? res.redirect('/add') : res.render('index');
+  Object.keys(currentOrgCredentials).length !== 0 || correctCredentials ? res.redirect('/add') : res.render('index');
 });
 
 router.get('/changeCredentials', function (req, res, next) {
