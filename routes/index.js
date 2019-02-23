@@ -38,7 +38,10 @@ router.post('/registerOrg', function (req, res, next) {
   function handleUserData(data) {
     orgRepos = [];
     data.forEach(function (obj) {
-      var newObj = { name: obj.name };
+      var newObj = {
+        name: obj.name,
+        description: obj.description
+      };
       orgRepos.push(newObj);
     });
     return orgRepos;

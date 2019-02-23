@@ -6,7 +6,7 @@ block content
     label(for="repo") Repo
     select(name="repo")
       each repo in orgRepos
-        option(value=repo.name) #{repo.name}
+        option(value=repo.name) #{repo.name} - #{repo.description}
     label(for="title") Issue Title
     input(type="text" name="title")
     label(for="description") Issue Description
