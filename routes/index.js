@@ -8,6 +8,18 @@ let ghorg;
 let orgRepos = [];
 let correctCredentials;
 
+function handleUserData(data) {
+  orgRepos = [];
+  data.forEach(function (obj) {
+    var newObj = {
+      name: obj.name,
+      description: obj.description
+    };
+    orgRepos.push(newObj);
+  });
+  return orgRepos;
+}
+
 router.get('/', function (req, res, next) {
   Object.keys(currentOrgCredentials).length !== 0 || correctCredentials ? res.redirect('/add') : res.render('index');
 });
@@ -34,23 +46,23 @@ router.post('/registerOrg', function (req, res, next) {
       res.redirect('/add');
     }
   });
-
-  function handleUserData(data) {
-    orgRepos = [];
-    data.forEach(function (obj) {
-      var newObj = {
-        name: obj.name,
-        description: obj.description
-      };
-      orgRepos.push(newObj);
-    });
-    return orgRepos;
-  }
 });
 
 router.get('/add', function (req, res, next) {
-  // console.log('orgRepos', orgRepos);
-  res.render('add', { user: req.user, orgRepos });
+  if (orgRepos.length === 0) {
+    client = github.client(currentOrgCredentials.token);
+    ghorg = client.org(currentOrgCredentials.orgName);
+    ghorg.repos((err, data, headers) => {
+      if (err) {
+        console.log('ERROR: ', err)
+      } else {
+        handleUserData(data);
+        res.render('add', { user: req.user, orgRepos });
+      }
+    });
+  } else {
+    res.render('add', { user: req.user, orgRepos });
+  }
 });
 
 router.post('/add', function (req, res, next) {
