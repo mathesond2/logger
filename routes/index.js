@@ -21,7 +21,9 @@ function handleUserData(data) {
 }
 
 router.get('/', function (req, res, next) {
-  Object.keys(currentOrgCredentials).length !== 0 || correctCredentials ? res.redirect('/add') : res.render('index');
+  correctCredentials ||
+    Object.keys(currentOrgCredentials).length !== 0 && correctCredentials ?
+    res.redirect('/add') : res.render('index');
 });
 
 router.get('/changeCredentials', function (req, res, next) {
