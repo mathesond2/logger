@@ -57,11 +57,11 @@ router.get('/add', function (req, res, next) {
         console.log('ERROR: ', err)
       } else {
         handleUserData(data);
-        res.render('add', { user: req.user, orgRepos });
+        res.render('add', { orgRepos });
       }
     });
   } else {
-    res.render('add', { user: req.user, orgRepos });
+    res.render('add', { orgRepos });
   }
 });
 
