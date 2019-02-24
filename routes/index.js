@@ -3,9 +3,9 @@ const router = express.Router();
 const github = require('octonode');
 const fs = require("fs");
 const currentOrgCredentials = require("./../orgCredentials.json");
+let orgRepos = [];
 let client;
 let ghorg;
-let orgRepos = [];
 let correctCredentials;
 
 function handleUserData(data) {
