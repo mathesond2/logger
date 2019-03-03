@@ -3,6 +3,7 @@ const router = express.Router();
 const github = require('octonode');
 const fs = require("fs");
 const currentOrgCredentials = require("./../orgCredentials.json");
+let flashMessage;
 let orgRepos = [];
 let client;
 let ghorg;
@@ -21,7 +22,7 @@ function handleUserData(data) {
 }
 
 router.get('/', function (req, res, next) {
-  Object.keys(currentOrgCredentials).length !== 0 && correctCredentials !== false ? res.redirect('/add') : res.render('index');
+  Object.keys(currentOrgCredentials).length !== 0 && correctCredentials !== false ? res.redirect('/add') : res.render('index', { flashMessage: req.flash(flashMessage) });
 });
 
 router.get('/changeCredentials', function (req, res, next) {
@@ -34,6 +35,8 @@ router.post('/registerOrg', function (req, res, next) {
   ghorg = client.org(req.body.orgName);
   ghorg.repos((err, data, headers) => {
     if (err) {
+      req.flash('error', "Unable to register Github Org, please try again. 😔");
+      flashMessage = 'error';
       res.redirect('/');
     } else {
       const orgCredentials = {
@@ -61,7 +64,7 @@ router.get('/add', function (req, res, next) {
       }
     });
   } else {
-    res.render('add', { orgRepos });
+    res.render('add', { orgRepos, flashMessage: req.flash(flashMessage) });
   }
 });
 
@@ -70,7 +73,10 @@ router.post('/add', function (req, res, next) {
   ghrepo.issue({
     "title": req.body.title,
     "body": req.body.description,
-  }, function () {
+  }, function (err, data, headers) {
+    req.flash('error', "Unable to create issue, please try again. 😔");
+    req.flash('success', `Your issue has been posted at <a href="${data.html_url}">${data.html_url}</a>  🎉`);
+    flashMessage = err ? 'error' : 'success';
     res.redirect('/add');
   });
 });
