@@ -8,6 +8,7 @@ let orgRepos = [];
 let client;
 let ghorg;
 let correctCredentials;
+let availableRepos = [];
 
 function handleUserData(data) {
   orgRepos = [];
@@ -46,12 +47,49 @@ router.post('/registerOrg', function (req, res, next) {
       fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
       correctCredentials = true;
       handleUserData(data);
-      res.redirect('/add');
+      // res.redirect('/add');
+      res.redirect('/updateAvailableRepos');
     }
   });
 });
 
+router.get('/updateAvailableRepos', function (req, res, next) {
+  if (orgRepos.length === 0) {
+    console.log('here');
+    client = github.client(currentOrgCredentials.token);
+    ghorg = client.org(currentOrgCredentials.orgName);
+    ghorg.repos((err, data, headers) => {
+      if (err) {
+        console.log('ERROR: ', err)
+      } else {
+        handleUserData(data);
+        res.render('updateRepos', { orgRepos });
+      }
+    });
+  } else {
+    console.log('here actually');
+    res.render('updateRepos', { orgRepos, flashMessage: req.flash(flashMessage) });
+  }
+});
+
+
+router.post('/updateAvailableRepos', function (req, res, next) {
+  console.log('req.body', req.body);
+  availableRepos = Object.keys(req.body);
+  // currentOrgCredentials.availableRepos = availableRepos;
+  let blah = JSON.parse(currentOrgCredentials);
+  console.log('currentOrgCredentials', blah);
+  // const orgCredentials = {
+  //   token: 'currentOrgCredentials.token',
+  //   orgName: currentOrgCredentials.orgName,
+  //   availableRepos
+  // };
+  // fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
+  // res.redirect('/add');
+});
+
 router.get('/add', function (req, res, next) {
+  console.log('availableRepos', availableRepos);
   if (orgRepos.length === 0) {
     client = github.client(currentOrgCredentials.token);
     ghorg = client.org(currentOrgCredentials.orgName);
@@ -60,10 +98,18 @@ router.get('/add', function (req, res, next) {
         console.log('ERROR: ', err)
       } else {
         handleUserData(data);
+        orgRepos.forEach((obj, i) => {
+          if (!currentOrgCredentials.availableRepos.includes(obj.name)) orgRepos.splice(i, 1);
+        });
         res.render('add', { orgRepos });
+        console.log('orgRepos', orgRepos)
       }
     });
   } else {
+    console.log('orgRepos are', orgRepos);
+    orgRepos.forEach((obj, i) => {
+      if (!availableRepos.includes(obj.name)) orgRepos.splice(i, 1);
+    });
     res.render('add', { orgRepos, flashMessage: req.flash(flashMessage) });
   }
 });
