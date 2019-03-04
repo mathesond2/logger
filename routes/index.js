@@ -9,6 +9,7 @@ let client;
 let ghorg;
 let correctCredentials;
 let availableRepos = [];
+let orgCredentials;
 
 function handleUserData(data) {
   orgRepos = [];
@@ -40,7 +41,7 @@ router.post('/registerOrg', function (req, res, next) {
       flashMessage = 'error';
       res.redirect('/');
     } else {
-      const orgCredentials = {
+      orgCredentials = {
         token: req.body.token,
         orgName: req.body.orgName,
       };
@@ -77,15 +78,18 @@ router.post('/updateAvailableRepos', function (req, res, next) {
   console.log('req.body', req.body);
   availableRepos = Object.keys(req.body);
   // currentOrgCredentials.availableRepos = availableRepos;
-  let blah = JSON.parse(currentOrgCredentials);
-  console.log('currentOrgCredentials', blah);
+  // let blah = JSON.parse(currentOrgCredentials);
+  // console.log('currentOrgCredentials', currentOrgCredentials);
+  // console.log('orgCredentials', orgCredentials);
   // const orgCredentials = {
-  //   token: 'currentOrgCredentials.token',
-  //   orgName: currentOrgCredentials.orgName,
+  //   token: orgCredentials.token,
+  //   orgName: orgCredentials.orgName,
   //   availableRepos
   // };
-  // fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
-  // res.redirect('/add');
+
+  orgCredentials.availableRepos = availableRepos;
+  fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
+  res.redirect('/add');
 });
 
 router.get('/add', function (req, res, next) {
