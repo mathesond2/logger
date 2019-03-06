@@ -27,8 +27,15 @@ body.mui-container-fluid {
 }
 
 .form--primary {
-  padding: 80px 40px;
+  padding: 40px 20px;
 }
+
+@media (min-width: 640px) {
+  .form--primary {
+    padding: 60px 30px;
+  }
+}
+
 
 input.button.btn--primary {
   margin-top: 20px;
