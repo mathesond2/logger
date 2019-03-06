@@ -1,18 +1,20 @@
 extends layout
 
 block content
-  if flashMessage && flashMessage.length
-    p!= flashMessage
-  h1 Add an issue
-  form.form(action="/add" method="POST" autocomplete="off")
-    label(for="repo") Repo
-    select(name="repo")
-      each repo in orgRepos
-        option(value=repo.name) #{repo.name} - #{repo.description}
-    label(for="title") Issue Title
-    input(type="text" name="title")
-    label(for="description") Issue Description
-    textarea(name="description") 
-    input.button(type="submit" value="add")
+  div(class="mui-row")
+    div(class="mui-col-md-6 mui-col-md-offset-3")
+      if flashMessage && flashMessage.length
+        p!= flashMessage
+      h1 Add an issue
+      form.form(action="/add" method="POST" autocomplete="off")
+        label(for="repo") Repo
+        select(name="repo")
+          each repo in orgRepos
+            option(value=repo.name) #{repo.name} - #{repo.description}
+        label(for="title") Issue Title
+        input(type="text" name="title")
+        label(for="description") Issue Description
+        textarea(name="description")
+        input.button(type="submit" value="add")
 
-    p Need to change your admin credentials? Go <a href="/changeCredentials">here</a>.
+        p Need to change your admin credentials? Go <a href="/changeCredentials">here</a>.

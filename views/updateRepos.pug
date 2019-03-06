@@ -1,13 +1,15 @@
 extends layout
 
 block content
-  if flashMessage && flashMessage.length
-    p!= flashMessage
-  h1 Add repos you want to be available to create issues in.
-  form.form(action="/updateAvailableRepos" method="POST" autocomplete="off")
-    each repo in orgRepos
-      div
-        input(type='checkbox' name='repos' value=repo.name)
-        label(for='repos') #{repo.name} - #{repo.description}
-    input.button(type="submit" value="add")
+  div(class="mui-row")
+    div(class="mui-col-md-6 mui-col-md-offset-3")
+      if flashMessage && flashMessage.length
+        p!= flashMessage
+      h1 Add repos you want to be available to create issues in.
+      form.form(action="/updateAvailableRepos" method="POST" autocomplete="off")
+        each repo in orgRepos
+          div
+            input(type='checkbox' name='repos' value=repo.name)
+            label(for='repos') #{repo.name} - #{repo.description}
+        input.button(type="submit" value="add")
 
