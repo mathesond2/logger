@@ -36,8 +36,8 @@ router.post('/registerOrg', function (req, res, next) {
   ghorg = client.org(req.body.orgName);
   ghorg.repos((err, data, headers) => {
     if (err) {
-      req.flash('error', "Unable to register Github Org, please try again. 😔");
-      flashMessage = 'error';
+      req.flash('registerError', "Unable to register Github Org, please try again. 👺");
+      flashMessage = 'registerError';
       res.redirect('/');
     } else {
       orgCredentials = {
@@ -107,7 +107,7 @@ router.post('/add', function (req, res, next) {
     "body": req.body.description,
   }, function (err, data, headers) {
     const cleanUrl = data.html_url.replace('https://', '');
-    req.flash('error', "Unable to create issue, please try again. 😔");
+    req.flash('error', "Unable to create issue, please try again. 👺");
     req.flash('success', `Your issue has been created at <a href="${data.html_url}">${cleanUrl}</a>  🎉`);
     flashMessage = err ? 'error' : 'success';
     res.redirect('/add');
