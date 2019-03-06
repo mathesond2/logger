@@ -7,7 +7,7 @@ block content
   form.form(action="/updateAvailableRepos" method="POST" autocomplete="off")
     each repo in orgRepos
       div
-        input(type='checkbox' name='repos' value=repo)
+        input(type='checkbox' name='repos' value=repo.name)
         label(for='repos') #{repo.name} - #{repo.description}
     input.button(type="submit" value="add")
 
