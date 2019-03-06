@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  if flashMessage
+  if flashMessage.length
     p!= flashMessage
   h1 Add an issue
   form.form(action="/add" method="POST" autocomplete="off")
