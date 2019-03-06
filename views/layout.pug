@@ -7,4 +7,7 @@ html
     script(src='//cdn.muicss.com/mui-0.9.41/js/mui.min.js')
 
   body(class="mui-container-fluid")
+    div(class="mui-appbar")
+      if flashMessage && flashMessage.length
+        p(class="mui--text-center")!= flashMessage
     block content

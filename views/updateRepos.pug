@@ -6,9 +6,9 @@ block content
       form.form(action="/updateAvailableRepos" method="POST" autocomplete="off" class="mui-form form--primary")
         legend(id="form-legend") Add repos you want to be available to create issues in
         each repo in orgRepos
-          div(class="mui-checkbox styled-checkbox")
-            input(type='checkbox' name='repos' value=repo.name class="checkbox--large")
-            label(for='repos') #{repo.name} - #{repo.description}
+          div(class="mui-checkbox")
+            input(type='checkbox' name='repos' value=repo.name id=repo.name class="checkbox--large")
+            label(for=repo.name) #{repo.name} - #{repo.description}
         input.button(type="submit" value="add" class="mui-btn mui-btn--raised btn--primary")
       if flashMessage && flashMessage.length
         p!= flashMessage

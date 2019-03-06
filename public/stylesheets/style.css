@@ -1,15 +1,21 @@
-body {
-  padding: 50px;
+body.mui-container-fluid {
+  padding: 0 0 50px 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.mui-appbar {
+  margin-bottom: 50px;
+  padding: auto 20px;
+  line-height: 64px;
+  font-size: 16px;
+  background-color: #fff!important;
+  color: inherit!important;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.16), 0 0 1px 0 rgba(0,0,0,.12);
 }
 
-/* * {
-  border: solid 1px red;
-} */
+.mui-appbar + .mui-row {
+  margin: auto 15px;
+}
 
 #form-legend {
   margin-bottom: 40px;
@@ -17,11 +23,6 @@ a {
 
 .form--primary {
   padding: 80px 40px;
-}
-
-.checkbox--large {
-  width: 20px; 
-  height: 20px;
 }
 
 input.button.btn--primary {
