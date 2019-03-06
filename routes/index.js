@@ -56,7 +56,6 @@ router.post('/registerOrg', function (req, res, next) {
 
 router.get('/updateAvailableRepos', function (req, res, next) {
   if (orgRepos.length === 0) {
-    console.log('here');
     client = github.client(currentOrgCredentials.token);
     ghorg = client.org(currentOrgCredentials.orgName);
     ghorg.repos((err, data, headers) => {
@@ -68,7 +67,6 @@ router.get('/updateAvailableRepos', function (req, res, next) {
       }
     });
   } else {
-    console.log('here actually');
     res.render('updateRepos', { orgRepos, flashMessage: req.flash(flashMessage) });
   }
 });
@@ -82,7 +80,6 @@ router.post('/updateAvailableRepos', function (req, res, next) {
 });
 
 router.get('/add', function (req, res, next) {
-  console.log('availableRepos', availableRepos);
   if (orgRepos.length === 0) {
     client = github.client(currentOrgCredentials.token);
     ghorg = client.org(currentOrgCredentials.orgName);
@@ -95,11 +92,9 @@ router.get('/add', function (req, res, next) {
           if (!currentOrgCredentials.availableRepos.includes(obj.name)) orgRepos.splice(i, 1);
         });
         res.render('add', { orgRepos });
-        console.log('orgRepos', orgRepos)
       }
     });
   } else {
-    console.log('orgRepos are', orgRepos);
     orgRepos.forEach((obj, i) => {
       if (availableRepos.length && !availableRepos.includes(obj["name"])) orgRepos.splice(i, 1);
     });
