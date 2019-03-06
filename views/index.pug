@@ -2,8 +2,6 @@ extends layout
 
 block content
   div(class="mui-row")
-    if Object.keys(flashMessage).length
-      p!= flashMessage
     div(class="mui-col-md-6 mui-col-md-offset-3 mui-panel")
       form.form(action="/registerOrg" method="POST" class="mui-form form--primary")
         legend(id="form-legend") Admin of a Github Organization? Register the org name and add a <a href='https://github.com/settings/tokens'>personal access token</a>.
