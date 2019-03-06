@@ -17,6 +17,11 @@ body.mui-container-fluid {
   margin: auto 15px;
 }
 
+.mui-appbar a,
+.mui-appbar a:hover {
+  text-decoration: none;
+}
+
 #form-legend {
   margin-bottom: 40px;
 }
