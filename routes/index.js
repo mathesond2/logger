@@ -75,18 +75,7 @@ router.get('/updateAvailableRepos', function (req, res, next) {
 
 
 router.post('/updateAvailableRepos', function (req, res, next) {
-  console.log('req.body', req.body);
-  availableRepos = Object.keys(req.body);
-  // currentOrgCredentials.availableRepos = availableRepos;
-  // let blah = JSON.parse(currentOrgCredentials);
-  // console.log('currentOrgCredentials', currentOrgCredentials);
-  // console.log('orgCredentials', orgCredentials);
-  // const orgCredentials = {
-  //   token: orgCredentials.token,
-  //   orgName: orgCredentials.orgName,
-  //   availableRepos
-  // };
-
+  availableRepos = req.body.repos;
   orgCredentials.availableRepos = availableRepos;
   fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
   res.redirect('/add');
@@ -112,7 +101,7 @@ router.get('/add', function (req, res, next) {
   } else {
     console.log('orgRepos are', orgRepos);
     orgRepos.forEach((obj, i) => {
-      if (!availableRepos.includes(obj.name)) orgRepos.splice(i, 1);
+      if (availableRepos.length && !availableRepos.includes(obj["name"])) orgRepos.splice(i, 1);
     });
     res.render('add', { orgRepos, flashMessage: req.flash(flashMessage) });
   }
