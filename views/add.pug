@@ -2,19 +2,21 @@ extends layout
 
 block content
   div(class="mui-row")
-    div(class="mui-col-md-6 mui-col-md-offset-3")
-      if flashMessage && flashMessage.length
-        p!= flashMessage
-      h1 Add an issue
-      form.form(action="/add" method="POST" autocomplete="off")
-        label(for="repo") Repo
-        select(name="repo")
-          each repo in orgRepos
-            option(value=repo.name) #{repo.name} - #{repo.description}
-        label(for="title") Issue Title
-        input(type="text" name="title")
-        label(for="description") Issue Description
-        textarea(name="description")
-        input.button(type="submit" value="add")
-
-        p Need to change your admin credentials? Go <a href="/changeCredentials">here</a>.
+    if flashMessage && flashMessage.length
+      p!= flashMessage
+    div(class="mui-col-md-6 mui-col-md-offset-3 mui-panel")
+      form.form(action="/add" method="POST" autocomplete="off" class="mui-form form--primary")
+        legend(id="form-legend") Add an issue
+        div(class="mui-select")
+          select(name="repo")
+            each repo in orgRepos
+              option(value=repo.name) #{repo.name} - #{repo.description}
+          label(for="repo") Repo
+        div(class="mui-textfield")
+          label(for="title") Issue Title
+          input(type="text" name="title")
+        div(class="mui-textfield")
+          label(for="description") Issue Description
+          textarea(name="description" id="textarea--primary")
+        input.button(type="submit" value="add" class="mui-btn mui-btn--raised btn--primary")
+      p(class="mui--text-center") Need to change your admin credentials? Go <a href="/changeCredentials">here</a>.

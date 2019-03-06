@@ -47,7 +47,6 @@ router.post('/registerOrg', function (req, res, next) {
       fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
       correctCredentials = true;
       handleUserData(data);
-      // res.redirect('/add');
       res.redirect('/updateAvailableRepos');
     }
   });

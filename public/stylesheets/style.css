@@ -7,6 +7,46 @@ a {
   color: #00B7FF;
 }
 
-* {
+/* * {
   border: solid 1px red;
+} */
+
+#form-legend {
+  margin-bottom: 40px;
+}
+
+.form--primary {
+  padding: 80px 40px;
+}
+
+.checkbox--large {
+  width: 20px; 
+  height: 20px;
+}
+
+input.button.btn--primary {
+  margin-top: 20px;
+}
+
+.form--primary .mui-textfield > textarea {
+  min-height: 180px;
+  padding-top: 20px;
+  resize: none;
+}
+
+input[type="checkbox"] {
+  font-size: 24px;
+  margin: 0 0.2rem;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none!important;
+}
+
+input[type="checkbox"]::after {
+  content: '⚫️';
+}
+
+input[type="checkbox"]:checked::after {
+  content: '👍';
 }
