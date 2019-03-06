@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  if flashMessage
+  if flashMessage && flashMessage.length
     p!= flashMessage
   h1 Add repos you want to be available to create issues in.
   form.form(action="/updateAvailableRepos" method="POST" autocomplete="off")
