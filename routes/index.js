@@ -103,7 +103,7 @@ router.post('/add', function (req, res, next) {
   }, function (err, data, headers) {
     const cleanUrl = data.html_url.replace('https://', '');
     req.flash('error', "Unable to create issue, please try again. 👺");
-    req.flash('success', `Your issue has been created at <a href="${data.html_url}">${cleanUrl}</a>  🎉`);
+    req.flash('success', `Your issue has been created at <a href="${data.html_url}" target="_blank">${cleanUrl}</a>  🎉`);
     flashMessage = err ? 'error' : 'success';
     res.redirect('/add');
   });
