@@ -69,7 +69,6 @@ router.get('/updateAvailableRepos', function (req, res, next) {
   }
 });
 
-
 router.post('/updateAvailableRepos', function (req, res, next) {
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
   orgRepos.forEach((obj, i) => {
