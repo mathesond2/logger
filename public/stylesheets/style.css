@@ -1,8 +1,65 @@
-body {
-  padding: 50px;
+body.mui-container-fluid {
+  padding: 0 0 50px 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.mui-appbar {
+  margin-bottom: 50px;
+  padding: auto 20px;
+  line-height: 64px;
+  font-size: 16px;
+  background-color: #fff!important;
+  color: inherit!important;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.16), 0 0 1px 0 rgba(0,0,0,.12);
+}
+
+.mui-appbar + .mui-row {
+  margin: auto 15px;
+}
+
+.mui-appbar a,
+.mui-appbar a:hover {
+  text-decoration: none;
+}
+
+#form-legend {
+  margin-bottom: 40px;
+}
+
+.form--primary {
+  padding: 40px 20px;
+}
+
+@media (min-width: 640px) {
+  .form--primary {
+    padding: 60px 30px;
+  }
+}
+
+
+input.button.btn--primary {
+  margin-top: 20px;
+}
+
+.form--primary .mui-textfield > textarea {
+  min-height: 180px;
+  padding-top: 20px;
+  resize: none;
+}
+
+input[type="checkbox"] {
+  font-size: 24px;
+  margin: 0 0.2rem;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none!important;
+}
+
+input[type="checkbox"]::after {
+  content: '⚫️';
+}
+
+input[type="checkbox"]:checked::after {
+  content: '👍';
 }

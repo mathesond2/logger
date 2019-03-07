@@ -3,5 +3,11 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    link(rel='stylesheet', href='//cdn.muicss.com/mui-0.9.41/css/mui.min.css')
+    script(src='//cdn.muicss.com/mui-0.9.41/js/mui.min.js')
+
+  body(class="mui-container-fluid")
+    div(class="mui-appbar")
+      if flashMessage && flashMessage.length
+        p(class="mui--text-center")!= flashMessage
     block content
