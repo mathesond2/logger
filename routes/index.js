@@ -63,10 +63,14 @@ function handleUserData(data) {
 }
 
 router.get('/', function (req, res, next) {
+  res.render('index', { user: req.user, flashMessage: req.flash(flashMessage) });
+});
+
+router.get('/home', function (req, res, next) {
   Object.keys(currentOrgCredentials).length !== 0 &&
     correctCredentials !== false ?
     res.redirect('/add') :
-    res.render('index', { user: req.user, flashMessage: req.flash(flashMessage) });
+    res.render('home', { user: req.user, flashMessage: req.flash(flashMessage) });
 });
 
 
@@ -76,13 +80,13 @@ router.get('/login/github',
 router.get('/login/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function (req, res) {
-    res.redirect('/');
+    res.redirect('/home');
   }
 );
 
 router.get('/changeCredentials', function (req, res, next) {
   correctCredentials = false;
-  res.redirect('/');
+  res.redirect('/home');
 });
 
 router.post('/registerOrg', function (req, res, next) {
@@ -91,7 +95,7 @@ router.post('/registerOrg', function (req, res, next) {
     if (err) {
       req.flash('registerError', "Unable to register Github Org, please try again. 👺");
       flashMessage = 'registerError';
-      res.redirect('/');
+      res.redirect('/home');
     } else {
       orgCredentials = {
         token: correctAccessToken,

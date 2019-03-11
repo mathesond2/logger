@@ -63,3 +63,19 @@ input[type="checkbox"]::after {
 input[type="checkbox"]:checked::after {
   content: '👍';
 }
+
+.primary-nav {
+border: solid 1px red;
+text-align: right;
+}
+
+.primary-nav ul {
+  text-decoration: none;
+  list-style: none;
+  display: inline-block;
+}
+
+.primary-nav li {
+  display: inline-block;
+  margin: auto 10px;
+}
