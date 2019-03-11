@@ -18,6 +18,7 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(require('express-session')({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
 app.use(cookieParser('secret'));
 app.use(session({ cookie: { maxAge: 60000, } }));
 app.use(flash());
