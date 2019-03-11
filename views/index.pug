@@ -1,14 +1,5 @@
 extends layout
 
 block content
-  if (!user)
-    p please <a href="/login/github">Log In with Github</a>
-  else
-    div(class="mui-row")
-      div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
-        form.form(action="/registerOrg" method="POST" class="mui-form form--primary")
-          legend(id="form-legend") Hey #{user.username}! 👋 Please register your Github Organization
-          div(class="mui-textfield")
-            label(for="orgName") Organization Name
-            input(type="text" name="orgName")
-          input.button(type="submit" value="Register" class="mui-btn mui-btn--raised btn--primary")
+  h1 this is a homepage!
+  h2 <a href="/sign-up">sign up</a>

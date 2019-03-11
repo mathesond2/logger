@@ -10,4 +10,10 @@ html
     div(class="mui-appbar")
       if flashMessage && flashMessage.length
         p(class="mui--text-center")!= flashMessage
+      nav(class="primary-nav")
+        ul
+          if (!user)
+            li <a href="/sign-in">sign in</a>
+          else
+            li <a href="/home">Go To App</a>
     block content
