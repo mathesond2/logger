@@ -66,6 +66,14 @@ router.get('/', function (req, res, next) {
   res.render('index', { user: req.user, flashMessage: req.flash(flashMessage) });
 });
 
+router.get('/login', function (req, res, next) {
+  res.render('login', { flashMessage: req.flash(flashMessage) });
+});
+
+router.post('/login', function (req, res, next) {
+  console.log(req.body);
+});
+
 router.get('/home', function (req, res, next) {
   Object.keys(currentOrgCredentials).length !== 0 &&
     correctCredentials !== false ?
@@ -78,7 +86,7 @@ router.get('/login/github',
   passport.authenticate('github', { scope: 'repo' }));
 
 router.get('/login/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
+  passport.authenticate('github', { failureRedirect: '/home' }),
   function (req, res) {
     res.redirect('/home');
   }
