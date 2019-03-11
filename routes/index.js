@@ -74,6 +74,10 @@ router.post('/login', function (req, res, next) {
   console.log(req.body);
 });
 
+router.post('/sign-up', function (req, res, next) {
+  console.log(req.body);
+});
+
 router.get('/home', function (req, res, next) {
   Object.keys(currentOrgCredentials).length !== 0 &&
     correctCredentials !== false ?
