@@ -13,6 +13,7 @@ let client;
 let ghorg;
 let correctCredentials;
 let orgCredentials;
+let correctAccessToken;
 
 passport.use(new GitHubStrategy({
   clientID: clientID,
@@ -20,7 +21,7 @@ passport.use(new GitHubStrategy({
   callbackURL: "/login/github/callback"
 },
   function (accessToken, refreshToken, profile, cb) {
-    // console.log(profile);
+    correctAccessToken = accessToken;
     client = github.client(accessToken);
     return cb(null, profile, accessToken);
   }
@@ -85,7 +86,6 @@ router.get('/changeCredentials', function (req, res, next) {
 });
 
 router.post('/registerOrg', function (req, res, next) {
-  client = github.client(req.body.token);
   ghorg = client.org(req.body.orgName);
   ghorg.repos((err, data, headers) => {
     if (err) {
@@ -94,7 +94,7 @@ router.post('/registerOrg', function (req, res, next) {
       res.redirect('/');
     } else {
       orgCredentials = {
-        token: req.body.token,
+        token: correctAccessToken,
         orgName: req.body.orgName,
       };
       fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
