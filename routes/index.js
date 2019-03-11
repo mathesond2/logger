@@ -70,7 +70,7 @@ router.get('/', function (req, res, next) {
 
 
 router.get('/login/github',
-  passport.authenticate('github'));
+  passport.authenticate('github', { scope: 'repo' }));
 
 router.get('/login/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
