@@ -1,4 +1,6 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
+const helpers = require("./../helpers");
+const user = require("./../user");
 let flashMessage;
 let correctCredentials;
 
@@ -20,7 +22,7 @@ exports.signUpUser = (req, res) => {
 
 exports.renderAppHomeView = (req, res, next) => {
   Object.keys(currentOrgCredentials).length !== 0 &&
-    correctCredentials !== false ?
+    user.correctCredentials !== false ?
     res.redirect('/add') :
     res.render('home', { user: req.user, flashMessage: req.flash(flashMessage) });
 }

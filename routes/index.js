@@ -6,9 +6,11 @@ const clientID = process.env.GITHUB_CLIENT_ID;
 const clientSecret = process.env.GITHUB_CLIENT_SECRET;
 const github = require('octonode');
 const fs = require("fs");
+const helpers = require("./../helpers");
 const currentOrgCredentials = require("./../orgCredentials.json");
 const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
+const user = require('../user');
 let flashMessage;
 let orgRepos = [];
 let client;
@@ -23,8 +25,8 @@ passport.use(new GitHubStrategy({
   callbackURL: "/login/github/callback"
 },
   function (accessToken, refreshToken, profile, cb) {
-    correctAccessToken = accessToken;
-    client = github.client(accessToken);
+    user.correctAccessToken = accessToken;
+    user.client = github.client(accessToken);
     return cb(null, profile, accessToken);
   }
 ));
@@ -78,25 +80,20 @@ router.get('/login/github/callback',
   }
 );
 
-router.get('/changeCredentials', function (req, res, next) {
-  correctCredentials = false;
-  res.redirect('/home');
-});
+router.get('/changeCredentials', adminController.renderChangeCredentialView);
 
 router.post('/registerOrg', function (req, res, next) {
-  ghorg = client.org(req.body.orgName);
+  ghorg = user.client.org(req.body.orgName);
   ghorg.repos((err, data, headers) => {
     if (err) {
       req.flash('registerError', "Unable to register Github Org, please try again. 👺");
       flashMessage = 'registerError';
       res.redirect('/home');
     } else {
-      orgCredentials = {
-        token: correctAccessToken,
-        orgName: req.body.orgName,
-      };
-      fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
-      correctCredentials = true;
+      user.orgCredentials.token = user.correctAccessToken;
+      user.orgCredentials.orgName = req.body.orgName;
+      fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
+      user.correctCredentials = true;
       handleUserData(data);
       res.redirect('/updateAvailableRepos');
     }
