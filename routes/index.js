@@ -5,19 +5,9 @@ const GitHubStrategy = require('passport-github').Strategy;
 const clientID = process.env.GITHUB_CLIENT_ID;
 const clientSecret = process.env.GITHUB_CLIENT_SECRET;
 const github = require('octonode');
-const fs = require("fs");
-const helpers = require("./../helpers");
-const currentOrgCredentials = require("./../orgCredentials.json");
 const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
 const user = require('../user');
-let flashMessage;
-let orgRepos = [];
-let client;
-let ghorg;
-let correctCredentials;
-let orgCredentials;
-let correctAccessToken;
 
 passport.use(new GitHubStrategy({
   clientID: clientID,
