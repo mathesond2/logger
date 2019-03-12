@@ -5,7 +5,7 @@ exports.renderChangeCredentialView = (req, res) => {
   res.redirect('/home');
 }
 
-exports.updateAvailableRepos = (req, res) => {
+exports.renderAvailableReposView = (req, res) => {
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
       console.log('ERROR: ', err)

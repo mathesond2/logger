@@ -102,7 +102,7 @@ router.post('/registerOrg', function (req, res, next) {
   });
 });
 
-router.get('/updateAvailableRepos', adminController.updateAvailableRepos);
+router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
 
 router.post('/updateAvailableRepos', function (req, res, next) {
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
