@@ -8,7 +8,9 @@ html
 
   body(class="mui-container-fluid")
     div(class="mui-appbar")
-      if flashMessage && flashMessage.length
+      if locals.flashes
+        p hello
+        p!= locals.flashes
         p(class="mui--text-center")!= flashMessage
       nav(class="primary-nav")
         ul

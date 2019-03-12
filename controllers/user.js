@@ -1,15 +1,18 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
 const helpers = require("./../helpers");
 const user = require("./../user");
-let flashMessage;
-let correctCredentials;
 
 exports.renderHomeView = (req, res) => {
-  res.render('index', { user: req.user, flashMessage: req.flash(flashMessage) });
+  req.flash('success', "ayoby👺");
+  // res.send(JSON.stringify(req.flash('success')));
+  console.log(JSON.stringify(req.flash('success')));
+  // console.log('res.locals', res.locals);
+
+  res.render('index', { user: req.user });
 }
 
 exports.renderLoginView = (req, res) => {
-  res.render('login', { flashMessage: req.flash(flashMessage) });
+  res.render('login');
 }
 
 exports.logInUser = (req, res) => {
@@ -24,5 +27,5 @@ exports.renderAppHomeView = (req, res, next) => {
   Object.keys(currentOrgCredentials).length !== 0 &&
     user.correctCredentials !== false ?
     res.redirect('/add') :
-    res.render('home', { user: req.user, flashMessage: req.flash(flashMessage) });
+    res.render('home', { user: req.user });
 }

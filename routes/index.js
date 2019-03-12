@@ -87,7 +87,9 @@ router.post('/registerOrg', function (req, res, next) {
   ghorg.repos((err, data, headers) => {
     if (err) {
       req.flash('registerError', "Unable to register Github Org, please try again. 👺");
-      flashMessage = 'registerError';
+      // flashMessage = 'registerError';
+      console.log(JSON.stringify(req.flash('registerError')));
+      console.log(res.locals.flashes);
       res.redirect('/home');
     } else {
       user.orgCredentials.token = user.correctAccessToken;
