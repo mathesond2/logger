@@ -7,6 +7,8 @@ const clientSecret = process.env.GITHUB_CLIENT_SECRET;
 const github = require('octonode');
 const fs = require("fs");
 const currentOrgCredentials = require("./../orgCredentials.json");
+const adminController = require('../controllers/admin');
+const userController = require('../controllers/user');
 let flashMessage;
 let orgRepos = [];
 let client;
@@ -62,32 +64,12 @@ function handleUserData(data) {
   return orgRepos;
 }
 
-router.get('/', function (req, res, next) {
-  res.render('index', { user: req.user, flashMessage: req.flash(flashMessage) });
-});
-
-router.get('/login', function (req, res, next) {
-  res.render('login', { flashMessage: req.flash(flashMessage) });
-});
-
-router.post('/login', function (req, res, next) {
-  console.log(req.body);
-});
-
-router.post('/sign-up', function (req, res, next) {
-  console.log(req.body);
-});
-
-router.get('/home', function (req, res, next) {
-  Object.keys(currentOrgCredentials).length !== 0 &&
-    correctCredentials !== false ?
-    res.redirect('/add') :
-    res.render('home', { user: req.user, flashMessage: req.flash(flashMessage) });
-});
-
-
-router.get('/login/github',
-  passport.authenticate('github', { scope: 'repo' }));
+router.get('/', userController.renderHomeView);
+router.get('/login', userController.renderLoginView);
+router.post('/login', userController.logInUser);
+router.post('/sign-up', userController.signUpUser);
+router.get('/home', userController.renderAppHomeView);
+router.get('/login/github', passport.authenticate('github', { scope: 'repo' }));
 
 router.get('/login/github/callback',
   passport.authenticate('github', { failureRedirect: '/home' }),
