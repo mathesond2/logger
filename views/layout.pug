@@ -8,12 +8,14 @@ html
 
   body(class="mui-container-fluid")
     div(class="mui-appbar")
-      if flashMessage && flashMessage.length
+      if locals.flashes
+        p hello
+        p!= locals.flashes
         p(class="mui--text-center")!= flashMessage
       nav(class="primary-nav")
         ul
           if (!user)
-            li <a href="/sign-in">sign in</a>
+            li <a href="/login">sign in</a>
           else
             li <a href="/home">Go To App</a>
     block content

@@ -25,6 +25,11 @@ app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (err, req, res, next) {
+  res.locals.flashes = req.flash();
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
