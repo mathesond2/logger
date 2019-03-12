@@ -7,7 +7,6 @@ exports.renderHomeView = (req, res) => {
   // res.send(JSON.stringify(req.flash('success')));
   console.log(JSON.stringify(req.flash('success')));
   // console.log('res.locals', res.locals);
-
   res.render('index', { user: req.user });
 }
 
@@ -15,13 +14,9 @@ exports.renderLoginView = (req, res) => {
   res.render('login');
 }
 
-exports.logInUser = (req, res) => {
-  console.log(req.body);
-}
+exports.logInUser = (req, res) => { }
 
-exports.signUpUser = (req, res) => {
-  console.log(req.body);
-}
+exports.signUpUser = (req, res) => { }
 
 exports.renderAppHomeView = (req, res, next) => {
   Object.keys(currentOrgCredentials).length !== 0 &&
