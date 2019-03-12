@@ -105,19 +105,20 @@ router.post('/registerOrg', function (req, res, next) {
 router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
 router.post('/updateAvailableRepos', adminController.updateAvailableRepos);
 router.get('/add', userController.renderAddIssueView);
+router.post('/add', userController.addIssue);
 
-router.post('/add', function (req, res, next) {
-  const ghrepo = client.repo(`${ghorg.name}/${req.body.repo}`);
-  ghrepo.issue({
-    "title": req.body.title,
-    "body": req.body.description,
-  }, function (err, data, headers) {
-    const cleanUrl = data.html_url.replace('https://', '');
-    req.flash('error', "Unable to create issue, please try again. 👺");
-    req.flash('success', `Your issue has been created at <a href="${data.html_url}" target="_blank">${cleanUrl}</a>  🎉`);
-    flashMessage = err ? 'error' : 'success';
-    res.redirect('/add');
-  });
-});
+// router.post('/add', function (req, res, next) {
+//   const ghrepo = user.client.repo(`${user.githubOrg.name}/${req.body.repo}`);
+//   ghrepo.issue({
+//     "title": req.body.title,
+//     "body": req.body.description,
+//   }, function (err, data, headers) {
+//     const cleanUrl = data.html_url.replace('https://', '');
+//     req.flash('error', "Unable to create issue, please try again. 👺");
+//     req.flash('success', `Your issue has been created at <a href="${data.html_url}" target="_blank">${cleanUrl}</a>  🎉`);
+//     flashMessage = err ? 'error' : 'success';
+//     res.redirect('/add');
+//   });
+// });
 
 module.exports = router;
