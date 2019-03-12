@@ -14,7 +14,7 @@ passport.use(new GitHubStrategy({
   clientSecret: clientSecret,
   callbackURL: "/login/github/callback"
 },
-  function (accessToken, refreshToken, profile, cb) {
+  (accessToken, refreshToken, profile, cb) => {
     user.correctAccessToken = accessToken;
     user.client = github.client(accessToken);
     return cb(null, profile, accessToken);
@@ -30,34 +30,25 @@ passport.use(new GitHubStrategy({
 // from the database when deserializing.  However, due to the fact that this
 // example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
-passport.serializeUser(function (user, cb) {
-  cb(null, user);
-});
-
-passport.deserializeUser(function (obj, cb) {
-  cb(null, obj);
-});
-
+passport.serializeUser((user, cb) => { cb(null, user); });
+passport.deserializeUser((obj, cb) => { cb(null, obj); });
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
 router.use(passport.initialize());
 router.use(passport.session());
 
+router.get('/login/github', passport.authenticate('github', { scope: 'repo' }));
+router.get('/login/github/callback',
+  passport.authenticate('github', { failureRedirect: '/home' }),
+  (req, res) => { res.redirect('/home'); }
+);
+
 router.get('/', userController.renderHomeView);
 router.get('/login', userController.renderLoginView);
 router.post('/login', userController.logInUser);
 router.post('/sign-up', userController.signUpUser);
 router.get('/home', userController.renderAppHomeView);
-router.get('/login/github', passport.authenticate('github', { scope: 'repo' }));
-
-router.get('/login/github/callback',
-  passport.authenticate('github', { failureRedirect: '/home' }),
-  function (req, res) {
-    res.redirect('/home');
-  }
-);
-
 router.get('/changeCredentials', adminController.renderChangeCredentialView);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
