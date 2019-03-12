@@ -83,8 +83,8 @@ router.get('/login/github/callback',
 router.get('/changeCredentials', adminController.renderChangeCredentialView);
 
 router.post('/registerOrg', function (req, res, next) {
-  ghorg = user.client.org(req.body.orgName);
-  ghorg.repos((err, data, headers) => {
+  user.changeGithubOrg(req.body.orgName);
+  user.githubOrg.repos((err, data, headers) => {
     if (err) {
       req.flash('registerError', "Unable to register Github Org, please try again. 👺");
       // flashMessage = 'registerError';
@@ -102,16 +102,7 @@ router.post('/registerOrg', function (req, res, next) {
   });
 });
 
-router.get('/updateAvailableRepos', function (req, res, next) {
-  ghorg.repos((err, data, headers) => {
-    if (err) {
-      console.log('ERROR: ', err)
-    } else {
-      handleUserData(data);
-      res.render('updateRepos', { orgRepos, flashMessage: req.flash(flashMessage) });
-    }
-  });
-});
+router.get('/updateAvailableRepos', adminController.updateAvailableRepos);
 
 router.post('/updateAvailableRepos', function (req, res, next) {
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
