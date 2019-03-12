@@ -54,18 +54,6 @@ passport.deserializeUser(function (obj, cb) {
 router.use(passport.initialize());
 router.use(passport.session());
 
-function handleUserData(data) {
-  orgRepos = [];
-  data.forEach(function (obj) {
-    var newObj = {
-      name: obj.name,
-      description: obj.description
-    };
-    orgRepos.push(newObj);
-  });
-  return orgRepos;
-}
-
 router.get('/', userController.renderHomeView);
 router.get('/login', userController.renderLoginView);
 router.post('/login', userController.logInUser);
@@ -81,44 +69,10 @@ router.get('/login/github/callback',
 );
 
 router.get('/changeCredentials', adminController.renderChangeCredentialView);
-
-router.post('/registerOrg', function (req, res, next) {
-  user.changeGithubOrg(req.body.orgName);
-  user.githubOrg.repos((err, data, headers) => {
-    if (err) {
-      req.flash('registerError', "Unable to register Github Org, please try again. 👺");
-      // flashMessage = 'registerError';
-      console.log(JSON.stringify(req.flash('registerError')));
-      console.log(res.locals.flashes);
-      res.redirect('/home');
-    } else {
-      user.orgCredentials.token = user.correctAccessToken;
-      user.orgCredentials.orgName = req.body.orgName;
-      fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
-      user.correctCredentials = true;
-      handleUserData(data);
-      res.redirect('/updateAvailableRepos');
-    }
-  });
-});
-
+router.post('/registerOrg', adminController.registerOrg);
 router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
 router.post('/updateAvailableRepos', adminController.updateAvailableRepos);
 router.get('/add', userController.renderAddIssueView);
 router.post('/add', userController.addIssue);
-
-// router.post('/add', function (req, res, next) {
-//   const ghrepo = user.client.repo(`${user.githubOrg.name}/${req.body.repo}`);
-//   ghrepo.issue({
-//     "title": req.body.title,
-//     "body": req.body.description,
-//   }, function (err, data, headers) {
-//     const cleanUrl = data.html_url.replace('https://', '');
-//     req.flash('error', "Unable to create issue, please try again. 👺");
-//     req.flash('success', `Your issue has been created at <a href="${data.html_url}" target="_blank">${cleanUrl}</a>  🎉`);
-//     flashMessage = err ? 'error' : 'success';
-//     res.redirect('/add');
-//   });
-// });
 
 module.exports = router;
