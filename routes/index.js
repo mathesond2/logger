@@ -104,26 +104,7 @@ router.post('/registerOrg', function (req, res, next) {
 
 router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
 router.post('/updateAvailableRepos', adminController.updateAvailableRepos);
-
-router.get('/add', function (req, res, next) {
-  if (orgRepos.length === 0) {
-    client = github.client(currentOrgCredentials.token);
-    ghorg = client.org(currentOrgCredentials.orgName);
-    ghorg.repos((err, data, headers) => {
-      if (err) {
-        console.log('ERROR: ', err)
-      } else {
-        handleUserData(data);
-        orgRepos.forEach((obj, i) => {
-          if (currentOrgCredentials.availableRepos && !currentOrgCredentials.availableRepos.includes(obj.name)) orgRepos.splice(i, 1);
-        });
-        res.render('add', { orgRepos });
-      }
-    });
-  } else {
-    res.render('add', { orgRepos: user.orgRepos, flashMessage: req.flash(flashMessage) });
-  }
-});
+router.get('/add', userController.renderAddIssueView);
 
 router.post('/add', function (req, res, next) {
   const ghrepo = client.repo(`${ghorg.name}/${req.body.repo}`);

@@ -29,3 +29,8 @@ exports.renderAppHomeView = (req, res, next) => {
     res.redirect('/add') :
     res.render('home', { user: req.user });
 }
+
+exports.renderAddIssueView = (req, res) => {
+  user.filterUserData();
+  res.render('add', { orgRepos: user.orgRepos });
+}

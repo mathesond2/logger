@@ -1,3 +1,5 @@
+const currentOrgCredentials = require("./orgCredentials.json");
+
 let User = module.exports = {
   correctCredentials: false,
   client: null,
@@ -24,5 +26,11 @@ let User = module.exports = {
       User.orgRepos.push(newObj);
     });
     return User.orgRepos;
-  }
+  },
+  filterUserData: () => {
+    User.orgRepos.forEach((obj, i) => {
+      if (currentOrgCredentials.availableRepos &&
+        !currentOrgCredentials.availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);
+    });
+  },
 };
