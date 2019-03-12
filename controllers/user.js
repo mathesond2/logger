@@ -1,6 +1,7 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
-const helpers = require("./../helpers");
 const user = require("./../user");
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
 
 exports.renderHomeView = (req, res) => {
   req.flash('success', "ayoby👺");
@@ -16,7 +17,21 @@ exports.renderLoginView = (req, res) => {
 
 exports.logInUser = (req, res) => { }
 
-exports.signUpUser = (req, res) => { }
+exports.signUpUser = async (req, res) => {
+  console.log(req.body);
+  if (req.body.password !== req.body.passwordConfirm) {
+    //make flash msg!
+    res.redirect('/');
+    return;
+  }
+  delete req.body.passwordConfirm;
+  try {
+    const user = new User(req.body);
+    await user.save();
+  } catch (error) {
+    console.log('error!', error);
+  }
+}
 
 exports.renderAppHomeView = (req, res, next) => {
   Object.keys(currentOrgCredentials).length !== 0 &&
