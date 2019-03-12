@@ -103,18 +103,7 @@ router.post('/registerOrg', function (req, res, next) {
 });
 
 router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
-
-router.post('/updateAvailableRepos', function (req, res, next) {
-  let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
-  orgRepos.forEach((obj, i) => {
-    if (!availableRepos.includes(obj.name)) orgRepos.splice(i, 1);
-  });
-  if (orgCredentials) {
-    orgCredentials.availableRepos = availableRepos;
-    fs.writeFile('orgCredentials.json', JSON.stringify(orgCredentials), 'utf8', function () { });
-  }
-  res.redirect('/add');
-});
+router.post('/updateAvailableRepos', adminController.updateAvailableRepos);
 
 router.get('/add', function (req, res, next) {
   if (orgRepos.length === 0) {
