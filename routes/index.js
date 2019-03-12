@@ -121,7 +121,7 @@ router.get('/add', function (req, res, next) {
       }
     });
   } else {
-    res.render('add', { orgRepos, flashMessage: req.flash(flashMessage) });
+    res.render('add', { orgRepos: user.orgRepos, flashMessage: req.flash(flashMessage) });
   }
 });
 
