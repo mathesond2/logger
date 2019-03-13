@@ -7,6 +7,7 @@ const clientSecret = process.env.GITHUB_CLIENT_SECRET;
 const github = require('octonode');
 const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
+const authController = require('../controllers/auth');
 const user = require('../user');
 
 passport.use(new GitHubStrategy({
@@ -47,7 +48,11 @@ router.get('/login/github/callback',
 router.get('/', userController.renderHomeView);
 router.get('/login', userController.renderLoginView);
 router.post('/login', userController.logInUser);
-router.post('/sign-up', userController.signUpUser);
+router.post('/sign-up',
+  userController.validateRegister,
+  userController.register,
+  authController.login,
+);
 router.get('/home', userController.renderAppHomeView);
 router.get('/changeCredentials', adminController.renderChangeCredentialView);
 router.post('/registerOrg', adminController.registerOrg);
