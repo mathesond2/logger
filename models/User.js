@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise; // couple of way to wait for data to come back..here we're using async/await, so we'll use es6 promises for mongoose
 // const slugs = require('slugs');
 
-const md5 = require('md5');
+// const md5 = require('md5');
 const validator = require('validator');
 const mongodbErrorHandler = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
