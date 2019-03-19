@@ -45,9 +45,6 @@ router.get('/login/github/callback',
   (req, res) => { res.redirect('/'); }
 );
 
-router.get('/login', userController.renderLoginView);
-router.post('/login', userController.logInUser);
-router.post('/sign-up', userController.signUpUser);
 router.get('/', userController.renderAppHomeView);
 router.get('/changeCredentials', adminController.renderChangeCredentialView);
 router.post('/registerOrg', adminController.registerOrg);

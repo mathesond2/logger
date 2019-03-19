@@ -9,14 +9,6 @@ const user = require("./../user");
 //   res.render('index', { user: req.user });
 // }
 
-exports.renderLoginView = (req, res) => {
-  res.render('login');
-}
-
-exports.logInUser = (req, res) => { }
-
-exports.signUpUser = (req, res) => { }
-
 exports.renderAppHomeView = (req, res, next) => {
   Object.keys(currentOrgCredentials).length !== 0 &&
     user.correctCredentials !== false ?
