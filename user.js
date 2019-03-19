@@ -13,6 +13,7 @@ let User = module.exports = {
   orgRepos: [],
   removeCredentials: () => {
     User.orgCredentials = {};
+    User.correctCredentials = false;
     fs.writeFile('orgCredentials.json', JSON.stringify(User.orgCredentials), 'utf8', function () { });
   },
   changeGithubOrg: (name) => {
