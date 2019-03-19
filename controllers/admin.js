@@ -2,9 +2,9 @@ const user = require("./../user");
 const fs = require("fs");
 
 exports.resetCredentials = (req, res) => {
-  req.user = null;
   user.removeCredentials();
-  res.render('index', { user: req.user });
+  req.logout();
+  res.redirect('/');
 }
 
 exports.renderAvailableReposView = (req, res) => {
