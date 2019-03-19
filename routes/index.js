@@ -50,7 +50,7 @@ router.get('/changeCredentials', adminController.renderChangeCredentialView);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
 router.post('/updateAvailableRepos', adminController.updateAvailableRepos);
-router.get('/add', userController.renderAddIssueView);
-router.post('/add', userController.addIssue);
+router.get('/add-issue', userController.renderAddIssueView);
+router.post('/add-issue', userController.addIssue);
 
 module.exports = router;

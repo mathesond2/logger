@@ -12,7 +12,7 @@ const user = require("./../user");
 exports.renderAppHomeView = (req, res, next) => {
   Object.keys(currentOrgCredentials).length !== 0 &&
     user.correctCredentials !== false ?
-    res.redirect('/add') :
+    res.redirect('/add-issue') :
     res.render('home', { user: req.user });
 }
 
@@ -31,6 +31,6 @@ exports.addIssue = (req, res) => {
     req.flash('error', "Unable to create issue, please try again. 👺");
     req.flash('success', `Your issue has been created at <a href="${data.html_url}" target="_blank">${cleanUrl}</a>  🎉`);
     flashMessage = err ? 'error' : 'success';
-    res.redirect('/add');
+    res.redirect('/add-issue');
   });
 }
