@@ -17,5 +17,6 @@ block content
           label(for="description") Issue Description
           textarea(name="description" id="textarea--primary")
         input.button(type="submit" value="add" class="mui-btn mui-btn--raised btn--primary")
-      p(class="mui--text-center") Need to change your admin credentials? Go <a href="/changeCredentials">here</a>.
+      form.form(action="/reset-credentials" method="POST")
+        p(class="mui--text-center") Need to change your admin credentials? Go <button type="submit">here</button>.
       p(class="mui--text-center") Got new repos? Go <a href="/update-repos">here</a>.

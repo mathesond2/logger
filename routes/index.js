@@ -46,7 +46,7 @@ router.get('/login/github/callback',
 );
 
 router.get('/', userController.renderAppHomeView);
-router.get('/changeCredentials', adminController.renderChangeCredentialView);
+router.post('/reset-credentials', adminController.resetCredentials);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/update-repos', adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);
