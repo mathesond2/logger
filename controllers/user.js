@@ -13,7 +13,7 @@ exports.renderAppHomeView = (req, res, next) => {
   Object.keys(currentOrgCredentials).length !== 0 &&
     user.correctCredentials !== false ?
     res.redirect('/add-issue') :
-    res.render('home', { user: req.user });
+    res.render('index', { user: req.user });
 }
 
 exports.renderAddIssueView = (req, res) => {
