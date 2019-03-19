@@ -2,7 +2,6 @@ const currentOrgCredentials = require("./orgCredentials.json");
 const fs = require("fs");
 
 let User = module.exports = {
-  correctCredentials: false,
   client: null,
   correctAccessToken: null,
   orgCredentials: {
@@ -13,7 +12,6 @@ let User = module.exports = {
   orgRepos: [],
   removeCredentials: () => {
     User.orgCredentials = {};
-    User.correctCredentials = false;
     fs.writeFile('orgCredentials.json', JSON.stringify(User.orgCredentials), 'utf8', function () { });
   },
   changeGithubOrg: (name) => {

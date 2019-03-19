@@ -10,8 +10,7 @@ const user = require("./../user");
 // }
 
 exports.renderAppHomeView = (req, res, next) => {
-  Object.keys(currentOrgCredentials).length !== 0 &&
-    user.correctCredentials !== false ?
+  Object.keys(currentOrgCredentials).length !== 0 ?
     res.redirect('/add-issue') :
     res.render('index', { user: req.user });
 }
