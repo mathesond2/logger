@@ -12,7 +12,8 @@ const user = require('../user');
 passport.use(new GitHubStrategy({
   clientID: clientID,
   clientSecret: clientSecret,
-  callbackURL: "/login/github/callback"
+  callbackURL: "/login/github/callback",
+  scope: 'repo',
 },
   (accessToken, refreshToken, profile, cb) => {
     user.correctAccessToken = accessToken;
@@ -38,7 +39,7 @@ passport.deserializeUser((obj, cb) => { cb(null, obj); });
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get('/login/github', passport.authenticate('github', { scope: 'repo' }));
+router.get('/login/github', passport.authenticate('github'));
 router.get('/login/github/callback',
   passport.authenticate('github', { failureRedirect: '/home' }),
   (req, res) => { res.redirect('/home'); }
