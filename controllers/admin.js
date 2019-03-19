@@ -19,7 +19,6 @@ exports.renderAvailableReposView = (req, res) => {
 }
 
 exports.updateRepos = (req, res) => {
-  console.log('hitting');
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
   user.orgRepos.forEach((obj, i) => {
     if (!availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);
