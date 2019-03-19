@@ -1,14 +1,13 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
-const helpers = require("./../helpers");
 const user = require("./../user");
 
-exports.renderHomeView = (req, res) => {
-  req.flash('success', "ayoby👺");
-  // res.send(JSON.stringify(req.flash('success')));
-  console.log(JSON.stringify(req.flash('success')));
-  // console.log('res.locals', res.locals);
-  res.render('index', { user: req.user });
-}
+// exports.renderHomeView = (req, res) => {
+//   req.flash('success', "ayoby👺");
+//   // res.send(JSON.stringify(req.flash('success')));
+//   console.log(JSON.stringify(req.flash('success')));
+//   // console.log('res.locals', res.locals);
+//   res.render('index', { user: req.user });
+// }
 
 exports.renderLoginView = (req, res) => {
   res.render('login');

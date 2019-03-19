@@ -41,15 +41,14 @@ router.use(passport.session());
 
 router.get('/login/github', passport.authenticate('github'));
 router.get('/login/github/callback',
-  passport.authenticate('github', { failureRedirect: '/home' }),
-  (req, res) => { res.redirect('/home'); }
+  passport.authenticate('github', { failureRedirect: '/' }),
+  (req, res) => { res.redirect('/'); }
 );
 
-router.get('/', userController.renderHomeView);
 router.get('/login', userController.renderLoginView);
 router.post('/login', userController.logInUser);
 router.post('/sign-up', userController.signUpUser);
-router.get('/home', userController.renderAppHomeView);
+router.get('/', userController.renderAppHomeView);
 router.get('/changeCredentials', adminController.renderChangeCredentialView);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
