@@ -12,12 +12,13 @@ exports.renderAvailableReposView = (req, res) => {
       console.log('ERROR: ', err)
     } else {
       user.handleUserData(data);
-      res.render('updateRepos', { orgRepos: user.orgRepos });
+      res.render('update-repos', { orgRepos: user.orgRepos });
     }
   });
 }
 
-exports.updateAvailableRepos = (req, res) => {
+exports.updateRepos = (req, res) => {
+  console.log('hitting');
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
   user.orgRepos.forEach((obj, i) => {
     if (!availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);
@@ -41,7 +42,7 @@ exports.registerOrg = (req, res) => {
       fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
       user.correctCredentials = true;
       user.handleUserData(data);
-      res.redirect('/updateAvailableRepos');
+      res.redirect('/update-repos');
     }
   });
 }

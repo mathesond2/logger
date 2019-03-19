@@ -48,8 +48,8 @@ router.get('/login/github/callback',
 router.get('/', userController.renderAppHomeView);
 router.get('/changeCredentials', adminController.renderChangeCredentialView);
 router.post('/registerOrg', adminController.registerOrg);
-router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
-router.post('/updateAvailableRepos', adminController.updateAvailableRepos);
+router.get('/update-repos', adminController.renderAvailableReposView);
+router.post('/update-repos', adminController.updateRepos);
 router.get('/add-issue', userController.renderAddIssueView);
 router.post('/add-issue', userController.addIssue);
 
