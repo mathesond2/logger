@@ -3,7 +3,7 @@ const fs = require("fs");
 
 exports.renderChangeCredentialView = (req, res) => {
   user.toggleCorrectCredentials();
-  res.redirect('/home');
+  res.redirect('/');
 }
 
 exports.renderAvailableReposView = (req, res) => {
@@ -35,7 +35,7 @@ exports.registerOrg = (req, res) => {
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
       req.flash('registerError', "Unable to register Github Org, please try again. 👺");
-      res.redirect('/home');
+      res.redirect('/');
     } else {
       user.orgCredentials.token = user.correctAccessToken;
       user.orgCredentials.orgName = req.body.orgName;
