@@ -27,7 +27,7 @@ exports.updateRepos = (req, res) => {
     user.orgCredentials.availableRepos = availableRepos;
     fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
   }
-  res.redirect('/add');
+  res.redirect('/add-issue');
 }
 
 exports.registerOrg = (req, res) => {

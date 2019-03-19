@@ -18,7 +18,7 @@ exports.renderAppHomeView = (req, res, next) => {
 
 exports.renderAddIssueView = (req, res) => {
   user.filterUserData();
-  res.render('add', { orgRepos: user.orgRepos });
+  res.render('add-issue', { orgRepos: user.orgRepos });
 }
 
 exports.addIssue = (req, res) => {
