@@ -1,3 +1,4 @@
+const currentOrgCredentials = require("./../orgCredentials.json");
 const user = require("./../user");
 const fs = require("fs");
 
@@ -23,7 +24,12 @@ exports.updateRepos = (req, res) => {
   user.orgRepos.forEach((obj, i) => {
     if (!availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);
   });
+
   if (user.orgCredentials) {
+    if (Object.keys(currentOrgCredentials).length) {
+      user.orgCredentials.token = currentOrgCredentials.token;
+      user.orgCredentials.orgName = currentOrgCredentials.orgName;
+    }
     user.orgCredentials.availableRepos = availableRepos;
     fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
   }
