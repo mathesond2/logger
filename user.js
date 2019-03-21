@@ -19,7 +19,7 @@ let User = module.exports = {
   handleUserData: (data) => {
     User.orgRepos = [];
     data.forEach(function (obj) {
-      var newObj = {
+      let newObj = {
         name: obj.name,
         description: obj.description
       };
