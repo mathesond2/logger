@@ -1,6 +1,7 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
 const user = require("./../user");
 const github = require('octonode');
+const fs = require("fs");
 
 // exports.renderHomeView = (req, res) => {
 //   req.flash('success', "ayoby👺");
@@ -11,7 +12,8 @@ const github = require('octonode');
 // }
 
 exports.renderAppHomeView = (req, res, next) => {
-  Object.keys(currentOrgCredentials).length !== 0 ?
+  let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+  Object.keys(parsedData).length !== 0 ?
     res.redirect('/add-issue') :
     res.render('index', { user: req.user });
 }
