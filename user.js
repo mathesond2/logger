@@ -1,7 +1,6 @@
-const currentOrgCredentials = require("./orgCredentials.json");
+const fs = require("fs");
 
 let User = module.exports = {
-  correctCredentials: false,
   client: null,
   correctAccessToken: null,
   orgCredentials: {
@@ -10,8 +9,9 @@ let User = module.exports = {
   },
   githubOrg: null,
   orgRepos: [],
-  toggleCorrectCredentials: () => {
-    User.correctCredentials = false;
+  removeCredentials: () => {
+    User.orgCredentials = {};
+    fs.writeFile('orgCredentials.json', JSON.stringify(User.orgCredentials), 'utf8', function () { });
   },
   changeGithubOrg: (name) => {
     User.githubOrg = User.client.org(name);
@@ -19,7 +19,7 @@ let User = module.exports = {
   handleUserData: (data) => {
     User.orgRepos = [];
     data.forEach(function (obj) {
-      var newObj = {
+      let newObj = {
         name: obj.name,
         description: obj.description
       };
@@ -28,9 +28,11 @@ let User = module.exports = {
     return User.orgRepos;
   },
   filterUserData: () => {
+    let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
     User.orgRepos.forEach((obj, i) => {
-      if (currentOrgCredentials.availableRepos &&
-        !currentOrgCredentials.availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);
+      if (parsedData.availableRepos &&
+        !parsedData.availableRepos.includes(obj.name)) User.orgRepos.splice(i, 1);
     });
+    return User.orgRepos;
   },
 };

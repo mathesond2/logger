@@ -3,7 +3,7 @@ extends layout
 block content
   div(class="mui-row")
     div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
-      form.form(action="/add" method="POST" autocomplete="off" class="mui-form form--primary")
+      form.form(action="/add-issue" method="POST" autocomplete="off" class="mui-form form--primary")
         legend(id="form-legend") Add an issue
         div(class="mui-select")
           select(name="repo")
@@ -17,5 +17,5 @@ block content
           label(for="description") Issue Description
           textarea(name="description" id="textarea--primary")
         input.button(type="submit" value="add" class="mui-btn mui-btn--raised btn--primary")
-      p(class="mui--text-center") Need to change your admin credentials? Go <a href="/changeCredentials">here</a>.
-      p(class="mui--text-center") Got new repos? Go <a href="/updateAvailableRepos">here</a>.
+      p(class="mui--text-center") Need to change your admin credentials? Go <a href="/reset-credentials">here</a>.
+      p(class="mui--text-center") Got new repos? Go <a href="/update-repos">here</a>.

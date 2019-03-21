@@ -13,7 +13,8 @@ const user = require('../user');
 passport.use(new GitHubStrategy({
   clientID: clientID,
   clientSecret: clientSecret,
-  callbackURL: "/login/github/callback"
+  callbackURL: "/login/github/callback",
+  scope: 'repo',
 },
   (accessToken, refreshToken, profile, cb) => {
     user.correctAccessToken = accessToken;
@@ -39,26 +40,18 @@ passport.deserializeUser((obj, cb) => { cb(null, obj); });
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get('/login/github', passport.authenticate('github', { scope: 'repo' }));
+router.get('/login/github', passport.authenticate('github'));
 router.get('/login/github/callback',
-  passport.authenticate('github', { failureRedirect: '/home' }),
-  (req, res) => { res.redirect('/home'); }
+  passport.authenticate('github', { failureRedirect: '/' }),
+  (req, res) => { res.redirect('/'); }
 );
 
-router.get('/', userController.renderHomeView);
-router.get('/login', userController.renderLoginView);
-router.post('/login', userController.logInUser);
-router.post('/sign-up',
-  userController.validateRegister,
-  userController.register,
-  authController.login,
-);
-router.get('/home', userController.renderAppHomeView);
-router.get('/changeCredentials', adminController.renderChangeCredentialView);
+router.get('/', userController.renderAppHomeView);
+router.get('/reset-credentials', adminController.resetCredentials);
 router.post('/registerOrg', adminController.registerOrg);
-router.get('/updateAvailableRepos', adminController.renderAvailableReposView);
-router.post('/updateAvailableRepos', adminController.updateAvailableRepos);
-router.get('/add', userController.renderAddIssueView);
-router.post('/add', userController.addIssue);
+router.get('/update-repos', adminController.renderAvailableReposView);
+router.post('/update-repos', adminController.updateRepos);
+router.get('/add-issue', userController.renderAddIssueView);
+router.post('/add-issue', userController.addIssue);
 
 module.exports = router;

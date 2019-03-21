@@ -2,17 +2,14 @@ extends layout
 
 block content
   div(class="mui-row")
-  h1 this is a homepage!
-  div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
-    form.form(action="/sign-up" method="POST" class="mui-form form--primary")
-      legend(id="form-legend") Sign Up
-      div(class="mui-textfield")
-        label(for="email") email
-        input(type="email" name="email")
-      div(class="mui-textfield")
-        label(for="password") Password
-        input(type="password" name="password")
-      div(class="mui-textfield")
-        label(for="passwordConfirm") Confirm Password
-        input(type="password" name="passwordConfirm")
-      input.button(type="submit" value="Submit" class="mui-btn mui-btn--raised btn--primary")
+    div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
+      if (!user)
+        div(class="mui--text-center")
+          a(href="/login/github" class="mui-btn mui-btn--raised btn--primary") Please Log In with Github
+      else
+        form.form(action="/registerOrg" method="POST" class="mui-form form--primary")
+          legend(id="form-legend") Hey #{user.username}! 👋 Please register your Github Organization
+          div(class="mui-textfield")
+            label(for="orgName") Organization Name
+            input(type="text" name="orgName")
+          input.button(type="submit" value="Register" class="mui-btn mui-btn--raised btn--primary")
