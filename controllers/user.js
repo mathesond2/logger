@@ -3,19 +3,11 @@ const user = require("./../user");
 const github = require('octonode');
 const fs = require("fs");
 
-// exports.renderHomeView = (req, res) => {
-//   req.flash('success', "ayoby👺");
-//   // res.send(JSON.stringify(req.flash('success')));
-//   console.log(JSON.stringify(req.flash('success')));
-//   // console.log('res.locals', res.locals);
-//   res.render('index', { user: req.user });
-// }
-
 exports.renderAppHomeView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
   Object.keys(parsedData).length !== 0 ?
     res.redirect('/add-issue') :
-    res.render('index', { user: req.user });
+    res.render('index', { user: req.user, flashes: req.flash() });
 }
 
 exports.renderAddIssueView = (req, res) => {
@@ -42,10 +34,12 @@ exports.addIssue = (req, res) => {
     "title": req.body.title,
     "body": req.body.description,
   }, function (err, data, headers) {
-    const cleanUrl = data.html_url.replace('https://', '');
-    req.flash('error', "Unable to create issue, please try again. 👺");
-    req.flash('success', `Your issue has been created at <a href="${data.html_url}" target="_blank">${cleanUrl}</a>  🎉`);
-    flashMessage = err ? 'error' : 'success';
-    res.redirect('/add-issue');
+    if (err) {
+      req.flash('error', "Unable to create issue, please try again. 👺");
+    } else {
+      const cleanUrl = data.html_url.replace('https://', '');
+      req.flash('success', `Your issue has been created at <a href="${data.html_url}" target="_blank">${cleanUrl}</a>  🎉`);
+      res.redirect('/add-issue');
+    }
   });
 }

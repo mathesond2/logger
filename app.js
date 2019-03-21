@@ -28,13 +28,12 @@ app.use(cookieParser('secret'));
 app.use(session({ cookie: { maxAge: 60000, } }));
 app.use(flash());
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function (err, req, res, next) {
+app.use((req, res, next) => {
   res.locals.flashes = req.flash();
   next();
 });
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -45,10 +44,9 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');

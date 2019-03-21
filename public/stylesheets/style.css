@@ -4,13 +4,22 @@ body.mui-container-fluid {
 }
 
 .mui-appbar {
-  margin-bottom: 50px;
+  margin-bottom: 5px;
   padding: auto 20px;
   line-height: 64px;
   font-size: 16px;
   background-color: #fff!important;
   color: inherit!important;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.16), 0 0 1px 0 rgba(0,0,0,.12);
+}
+
+.mui-appbar + .mui-appbar {
+  margin-bottom: 50px;
+  box-shadow: none;
+}
+
+.alert-message {
+  margin-bottom: 0;
 }
 
 .mui-appbar + .mui-row {
@@ -65,8 +74,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .primary-nav {
-border: solid 1px red;
-text-align: right;
+  text-align: right;
 }
 
 .primary-nav ul {

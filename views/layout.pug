@@ -7,15 +7,20 @@ html
     script(src='//cdn.muicss.com/mui-0.9.41/js/mui.min.js')
 
   body(class="mui-container-fluid")
-    div(class="mui-appbar")
-      if locals.flashes
-        p hello
-        p!= locals.flashes
-        p(class="mui--text-center")!= flashMessage
+    .mui-appbar
       nav(class="primary-nav")
-        //- ul
-        //-   if (!user)
-        //-     li <a href="/login">sign in</a>
-        //-   else
-        //-     li <a href="/">Go To App</a>
+        ul
+          if (!user)
+            li <a href="/login">sign in</a>
+          else
+            li <a href="/">Go To App</a>
+    .mui-appbar
+      if locals.flashes
+        .flash-messages
+          - const categories = Object.keys(locals.flashes)
+          each category in categories
+            each message in flashes[category]
+              .flash(class=`flash--${category}`)
+                p(class="mui--text-center alert-message")!= message
+                //- button.flash__remove(onClick="this.parentElement.remove()") &times;
     block content

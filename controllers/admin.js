@@ -40,7 +40,8 @@ exports.registerOrg = (req, res) => {
   user.changeGithubOrg(req.body.orgName);
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
-      req.flash('registerError', "Unable to register Github Org, please try again. 👺");
+      // req.flash('error', 'Unable to register Github Org, please try again. 👺');
+      // console.log(JSON.stringify(res.locals));
       res.redirect('/');
     } else {
       user.orgCredentials.token = user.correctAccessToken;
