@@ -1,4 +1,3 @@
-const currentOrgCredentials = require("./orgCredentials.json");
 const fs = require("fs");
 
 let User = module.exports = {
