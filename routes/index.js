@@ -47,11 +47,11 @@ router.get('/login/github/callback',
 );
 
 router.get('/', userController.renderAppHomeView);
-router.get('/reset-credentials', adminController.resetCredentials);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/update-repos', adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);
 router.get('/add-issue', userController.renderAddIssueView);
 router.post('/add-issue', userController.addIssue);
+router.get('/reset-credentials', adminController.resetCredentials);
 
 module.exports = router;
