@@ -3,11 +3,40 @@ const user = require("./../user");
 const github = require('octonode');
 const fs = require("fs");
 
+// exports.renderAppHomeView = (req, res, next) => {
+//   let userOrgs;
+//   let ghUser = user.client.me();
+//   ghUser.orgs((err, data, headers) => {
+//     userOrgs = data.map(obj => obj.login);
+//     // Object.keys(currentOrgCredentials).length !== 0 &&
+//     //   user.correctCredentials !== false ?
+//     //   res.redirect('/add') :
+//     //   res.render('home', { user: req.user, userOrgs });
+//   });
+// }
+
 exports.renderAppHomeView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  Object.keys(parsedData).length !== 0 ?
-    res.redirect('/add-issue') :
-    res.render('index', { user: req.user, flashes: req.flash() });
+  let userOrgs = [];
+  if (Object.keys(parsedData).length !== 0) {
+    res.redirect('/add-issue');
+  } else {
+    if (user && user.client && user.client.token) {
+      let client = github.client(user.client.token);
+      let ghUser = client.me();
+      ghUser.orgs((err, data, headers) => {
+        userOrgs = data.map(obj => obj.login);
+        console.log('data', data);
+      });
+
+      // let ghUser = user.client.me();
+      // ghUser.orgs((err, data, headers) => {
+      //   userOrgs = data.map(obj => obj.login);
+
+      // });
+    }
+    res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
+  }
 }
 
 exports.renderAddIssueView = (req, res) => {

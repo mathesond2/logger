@@ -37,7 +37,7 @@ exports.updateRepos = (req, res) => {
 }
 
 exports.registerOrg = (req, res) => {
-  user.changeGithubOrg(req.body.orgName);
+  user.changeGithubOrg(req.body.org);
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
       // req.flash('error', 'Unable to register Github Org, please try again. 👺');
