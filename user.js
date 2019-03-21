@@ -29,9 +29,11 @@ let User = module.exports = {
     return User.orgRepos;
   },
   filterUserData: () => {
+    let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
     User.orgRepos.forEach((obj, i) => {
-      if (currentOrgCredentials.availableRepos &&
-        !currentOrgCredentials.availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);
+      if (parsedData.availableRepos &&
+        !parsedData.availableRepos.includes(obj.name)) User.orgRepos.splice(i, 1);
     });
+    return User.orgRepos;
   },
 };

@@ -1,5 +1,6 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
 const user = require("./../user");
+const github = require('octonode');
 
 // exports.renderHomeView = (req, res) => {
 //   req.flash('success', "ayoby👺");
@@ -16,8 +17,21 @@ exports.renderAppHomeView = (req, res, next) => {
 }
 
 exports.renderAddIssueView = (req, res) => {
-  user.filterUserData();
-  res.render('add-issue', { orgRepos: user.orgRepos });
+  if (Object.keys(currentOrgCredentials).length) {
+    user.client = github.client(currentOrgCredentials.token);
+    user.githubOrg = user.client.org(currentOrgCredentials.orgName);
+    user.githubOrg.repos((err, data, headers) => {
+      if (err) {
+        console.log('ERROR: ', err)
+      } else {
+        user.handleUserData(data);
+        user.filterUserData();
+        res.render('add-issue', { orgRepos: user.orgRepos });
+      }
+    });
+  } else {
+    res.render('add-issue', { orgRepos: user.orgRepos });
+  }
 }
 
 exports.addIssue = (req, res) => {
