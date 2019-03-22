@@ -24,17 +24,51 @@ exports.renderAppHomeView = (req, res, next) => {
     if (user && user.client && user.client.token) {
       let client = github.client(user.client.token);
       let ghUser = client.me();
-      ghUser.orgs((err, data, headers) => {
-        userOrgs = data.map(obj => obj.login);
-        console.log('data', data);
-      });
+      const blah = function (cb) {
+        ghUser.orgs((err, data, headers) => {
+          return cb(data);
+        });
+      };
+
+      // let bleh = blah();
+      // console.log(bleh);
+
 
       // let ghUser = user.client.me();
       // ghUser.orgs((err, data, headers) => {
       //   userOrgs = data.map(obj => obj.login);
 
       // });
+      blah(loggit);
     }
+
+    function loggit(data) {
+      const reposToCheckPermissions = data.map(item => item.login);
+      reposToCheckPermissions.map((item) => {
+        let ghorg = user.client.org(item);
+        const bleh = function (cb) {
+          ghorg.membership('mathesond2', (err, data, headers) => {
+            cb(data);
+          });
+        }
+
+        bleh(dude);
+      });
+
+
+
+
+
+
+      // userOrgs = simpleArr;
+      // console.log('userOrgs', userOrgs);
+    }
+    let simpleArr = [];
+    function dude(data) {
+      if (data.role === 'admin') simpleArr.push(data.organization.login);
+      console.log(simpleArr);
+    }
+
     res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
   }
 }
