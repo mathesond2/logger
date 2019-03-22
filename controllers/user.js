@@ -25,7 +25,6 @@ exports.renderAppHomeView = (req, res, next) => {
         });
 
         await Promise.all(allRepoRoles).then(data => {
-          // console.log('data', data);
           const userOrgs = data.filter(item => typeof item === 'string');
           console.log('userOrgs', userOrgs);
           res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
