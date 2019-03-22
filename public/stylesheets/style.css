@@ -56,6 +56,7 @@ input.button.btn--primary {
   resize: none;
 }
 
+input[type="radio"],
 input[type="checkbox"] {
   font-size: 24px;
   margin: 0 0.2rem;
@@ -65,10 +66,12 @@ input[type="checkbox"] {
   outline: none!important;
 }
 
+input[type="radio"]::after,
 input[type="checkbox"]::after {
   content: '⚫️';
 }
 
+input[type="radio"]:checked::after,
 input[type="checkbox"]:checked::after {
   content: '👍';
 }
