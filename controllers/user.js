@@ -16,60 +16,44 @@ const fs = require("fs");
 // }
 
 exports.renderAppHomeView = (req, res, next) => {
+  res.render('home');
+}
+
+
+exports.renderSelectReposView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  let userOrgs = [];
   if (Object.keys(parsedData).length !== 0) {
     res.redirect('/add-issue');
   } else {
-    if (user && user.client && user.client.token) {
-      let client = github.client(user.client.token);
-      let ghUser = client.me();
-      const blah = function (cb) {
-        ghUser.orgs((err, data, headers) => {
-          return cb(data);
+    async function getUserAdminRepos() {
+      if (user && user.client && user.client.token) {
+        let client = github.client(user.client.token);
+        let ghUser = client.me();
+        const orgsToCheck = await ghUser.orgsAsync();
+        let reposToCheckPermissions = orgsToCheck[0].map(item => item.login);
+        let allRepoRoles = reposToCheckPermissions.map(async (item) => {
+          let ghorg = user.client.org(item);
+          const result = await ghorg.membershipAsync(req.user.username);
+          if (result[0].role === 'admin') return result[0].organization.login;
         });
-      };
-
-      // let bleh = blah();
-      // console.log(bleh);
 
 
-      // let ghUser = user.client.me();
-      // ghUser.orgs((err, data, headers) => {
-      //   userOrgs = data.map(obj => obj.login);
-
-      // });
-      blah(loggit);
+        await Promise.all(allRepoRoles).then(data => {
+          // console.log('data', data);
+          const userOrgs = data.filter(item => typeof item === 'string');
+          console.log('userOrgs', userOrgs);
+          res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
+        });
+        // console.log('finalResults', finalResults);
+        // return finalResults;
+      }
     }
 
-    function loggit(data) {
-      const reposToCheckPermissions = data.map(item => item.login);
-      reposToCheckPermissions.map((item) => {
-        let ghorg = user.client.org(item);
-        const bleh = function (cb) {
-          ghorg.membership('mathesond2', (err, data, headers) => {
-            cb(data);
-          });
-        }
+    getUserAdminRepos();
+    // console.log('dude', dude);
 
-        bleh(dude);
-      });
+    // res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
 
-
-
-
-
-
-      // userOrgs = simpleArr;
-      // console.log('userOrgs', userOrgs);
-    }
-    let simpleArr = [];
-    function dude(data) {
-      if (data.role === 'admin') simpleArr.push(data.organization.login);
-      console.log(simpleArr);
-    }
-
-    res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
   }
 }
 
