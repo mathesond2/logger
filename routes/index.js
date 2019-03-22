@@ -46,8 +46,8 @@ router.get('/login/github/callback',
   (req, res) => { res.redirect('/select-repos'); }
 );
 
-router.get('/', userController.renderAppHomeView);
-router.get('/select-repos', userController.renderSelectReposView);
+router.get('/', userController.renderLoginView);
+router.get('/select-repos', userController.renderAppHomeView);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/update-repos', adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);

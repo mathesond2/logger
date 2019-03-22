@@ -7,8 +7,7 @@ exports.renderLoginView = (req, res, next) => {
   res.render('login');
 }
 
-
-exports.renderSelectReposView = (req, res, next) => {
+exports.renderAppHomeView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
   if (Object.keys(parsedData).length !== 0) {
     res.redirect('/add-issue');
