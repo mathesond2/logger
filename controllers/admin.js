@@ -45,7 +45,7 @@ exports.registerOrg = (req, res) => {
       res.redirect('/');
     } else {
       user.orgCredentials.token = user.correctAccessToken;
-      user.orgCredentials.orgName = req.body.orgName;
+      user.orgCredentials.orgName = req.body.org;
       fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
       user.handleUserData(data);
       res.redirect('/update-repos');
