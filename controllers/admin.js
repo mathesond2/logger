@@ -37,7 +37,7 @@ exports.updateRepos = (req, res) => {
 }
 
 exports.registerOrg = (req, res) => {
-  user.changeGithubOrg(req.body.orgName);
+  user.changeGithubOrg(req.body.org);
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
       // req.flash('error', 'Unable to register Github Org, please try again. 👺');
@@ -45,7 +45,7 @@ exports.registerOrg = (req, res) => {
       res.redirect('/');
     } else {
       user.orgCredentials.token = user.correctAccessToken;
-      user.orgCredentials.orgName = req.body.orgName;
+      user.orgCredentials.orgName = req.body.org;
       fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
       user.handleUserData(data);
       res.redirect('/update-repos');

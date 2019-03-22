@@ -3,13 +3,10 @@ extends layout
 block content
   div(class="mui-row")
     div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
-      if (!user)
-        div(class="mui--text-center")
-          a(href="/login/github" class="mui-btn mui-btn--raised btn--primary") Please Log In with Github
-      else
-        form.form(action="/registerOrg" method="POST" class="mui-form form--primary")
-          legend(id="form-legend") Hey #{user.username}! 👋 Please register your Github Organization
-          div(class="mui-textfield")
-            label(for="orgName") Organization Name
-            input(type="text" name="orgName")
-          input.button(type="submit" value="Register" class="mui-btn mui-btn--raised btn--primary")
+      form.form(action="/registerOrg" method="POST" autocomplete="off" class="mui-form form--primary")
+        legend(id="form-legend") Hey #{user.username}! 👋 Please choose your Github Organization
+        each org in userOrgs
+          div(class="mui-checkbox")
+            input(type='radio' name='org' value=org id=org class="checkbox--large")
+            label(for=org) #{org}
+        input.button(type="submit" value="Submit" class="mui-btn mui-btn--raised btn--primary")

@@ -43,10 +43,11 @@ router.use(passport.session());
 router.get('/login/github', passport.authenticate('github'));
 router.get('/login/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
-  (req, res) => { res.redirect('/'); }
+  (req, res) => { res.redirect('/select-repos'); }
 );
 
-router.get('/', userController.renderAppHomeView);
+router.get('/', userController.renderLoginView);
+router.get('/select-repos', userController.renderAppHomeView);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/update-repos', adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);

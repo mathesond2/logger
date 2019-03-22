@@ -3,11 +3,37 @@ const user = require("./../user");
 const github = require('octonode');
 const fs = require("fs");
 
-exports.renderAppHomeView = (req, res, next) => {
+exports.renderLoginView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  Object.keys(parsedData).length !== 0 ?
-    res.redirect('/add-issue') :
-    res.render('index', { user: req.user, flashes: req.flash() });
+  if (Object.keys(parsedData).length !== 0) {
+    res.redirect('/add-issue');
+  } else {
+    res.render('login');
+  }
+}
+
+exports.renderAppHomeView = (req, res, next) => {
+  async function getUserAdminRepos() {
+    if (user && user.client && user.client.token) {
+      let client = github.client(user.client.token);
+      let ghUser = client.me();
+      const orgsToCheck = await ghUser.orgsAsync();
+      let reposToCheckPermissions = orgsToCheck[0].map(item => item.login);
+      let allRepoRoles = reposToCheckPermissions.map(async (item) => {
+        let ghorg = user.client.org(item);
+        const result = await ghorg.membershipAsync(req.user.username);
+        if (result[0].role === 'admin') return result[0].organization.login;
+      });
+
+      await Promise.all(allRepoRoles).then(data => {
+        const userOrgs = data.filter(item => typeof item === 'string');
+        console.log('userOrgs', userOrgs);
+        res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
+      });
+    }
+  }
+
+  getUserAdminRepos();
 }
 
 exports.renderAddIssueView = (req, res) => {
