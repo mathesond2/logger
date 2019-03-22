@@ -3,20 +3,8 @@ const user = require("./../user");
 const github = require('octonode');
 const fs = require("fs");
 
-// exports.renderAppHomeView = (req, res, next) => {
-//   let userOrgs;
-//   let ghUser = user.client.me();
-//   ghUser.orgs((err, data, headers) => {
-//     userOrgs = data.map(obj => obj.login);
-//     // Object.keys(currentOrgCredentials).length !== 0 &&
-//     //   user.correctCredentials !== false ?
-//     //   res.redirect('/add') :
-//     //   res.render('home', { user: req.user, userOrgs });
-//   });
-// }
-
-exports.renderAppHomeView = (req, res, next) => {
-  res.render('home');
+exports.renderLoginView = (req, res, next) => {
+  res.render('login');
 }
 
 
@@ -37,23 +25,16 @@ exports.renderSelectReposView = (req, res, next) => {
           if (result[0].role === 'admin') return result[0].organization.login;
         });
 
-
         await Promise.all(allRepoRoles).then(data => {
           // console.log('data', data);
           const userOrgs = data.filter(item => typeof item === 'string');
           console.log('userOrgs', userOrgs);
           res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
         });
-        // console.log('finalResults', finalResults);
-        // return finalResults;
       }
     }
 
     getUserAdminRepos();
-    // console.log('dude', dude);
-
-    // res.render('index', { user: req.user, userOrgs, flashes: req.flash() });
-
   }
 }
 
