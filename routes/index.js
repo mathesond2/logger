@@ -9,6 +9,7 @@ const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
 const authController = require('../controllers/auth');
 const user = require('../user');
+const fs = require("fs");
 
 passport.use(new GitHubStrategy({
   clientID: clientID,
@@ -46,12 +47,17 @@ router.get('/login/github/callback',
   (req, res) => { res.redirect('/select-repos'); }
 );
 
+function loggedIn(req, res, next) {
+  let currentCredentials = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+  (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/');
+}
+
 router.get('/', userController.renderLoginView);
-router.get('/select-repos', userController.renderAppHomeView);
+router.get('/select-repos', loggedIn, userController.renderAppHomeView);
 router.post('/registerOrg', adminController.registerOrg);
-router.get('/update-repos', adminController.renderAvailableReposView);
+router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);
-router.get('/add-issue', userController.renderAddIssueView);
+router.get('/add-issue', loggedIn, userController.renderAddIssueView);
 router.post('/add-issue', userController.addIssue);
 router.get('/reset-credentials', adminController.resetCredentials);
 
