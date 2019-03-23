@@ -33,6 +33,7 @@ passport.use(new GitHubStrategy({
 // from the database when deserializing.  However, due to the fact that this
 // example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
+require('../util/auth');
 passport.serializeUser((user, cb) => { cb(null, user); });
 passport.deserializeUser((obj, cb) => { cb(null, obj); });
 
@@ -52,6 +53,7 @@ function loggedIn(req, res, next) {
   (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/');
 }
 
+// router.get('/', userController.renderSample);
 router.get('/', userController.renderLoginView);
 router.get('/select-repos', loggedIn, userController.renderAppHomeView);
 router.post('/registerOrg', adminController.registerOrg);

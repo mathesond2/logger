@@ -3,6 +3,11 @@ const user = require("./../user");
 const github = require('octonode');
 const fs = require("fs");
 
+// exports.renderSample = (req, res, next) => {
+//   const students = ["Elie", "Matt", "Joel", "Michael"];
+//   return res.json(students);
+// }
+
 exports.renderLoginView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
   if (Object.keys(parsedData).length !== 0) {
