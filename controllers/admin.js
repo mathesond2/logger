@@ -52,3 +52,7 @@ exports.registerOrg = (req, res) => {
     }
   });
 }
+
+exports.renderAdminView = (req, res) => {
+  res.render('admin');
+}

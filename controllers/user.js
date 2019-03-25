@@ -8,7 +8,7 @@ exports.renderLoginView = (req, res, next) => {
   if (Object.keys(parsedData).length !== 0) {
     res.redirect('/add-issue');
   } else {
-    res.render('login');
+    res.render('login', { user: req.user });
   }
 }
 

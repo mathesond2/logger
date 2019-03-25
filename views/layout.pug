@@ -11,9 +11,7 @@ html
       nav(class="primary-nav")
         ul
           if (!user)
-            li <a href="/login">sign in</a>
-          else
-            li <a href="/">Go To App</a>
+            li <a href="/admin">Admin</a>
     .mui-appbar
       if locals.flashes
         .flash-messages
