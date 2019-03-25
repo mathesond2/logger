@@ -7,8 +7,7 @@ const clientSecret = process.env.GITHUB_CLIENT_SECRET;
 const github = require('octonode');
 const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
-const authController = require('../controllers/auth');
-const user = require('../user');
+const user = require('../public/javascripts/user');
 const fs = require("fs");
 
 passport.use(new GitHubStrategy({
