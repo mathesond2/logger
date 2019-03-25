@@ -110,3 +110,7 @@ li {
 .admin-link {
   margin-bottom: 40px;
 }
+
+.admin-link:last-of-type {
+  margin-bottom: 0;
+}
