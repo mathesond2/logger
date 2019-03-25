@@ -60,5 +60,6 @@ router.post('/update-repos', adminController.updateRepos);
 router.get('/add-issue', loggedIn, userController.renderAddIssueView);
 router.post('/add-issue', userController.addIssue);
 router.get('/reset-credentials', adminController.resetCredentials);
+router.get('/admin', adminController.renderAdminView);
 
 module.exports = router;

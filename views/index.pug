@@ -3,10 +3,14 @@ extends layout
 block content
   div(class="mui-row")
     div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
-      form.form(action="/registerOrg" method="POST" autocomplete="off" class="mui-form form--primary")
-        legend(id="form-legend") Hey #{user.username}! 👋 Please choose your Github Organization
-        each org in userOrgs
-          div(class="mui-checkbox")
-            input(type='radio' name='org' value=org id=org class="checkbox--large")
-            label(for=org) #{org}
-        input.button(type="submit" value="Submit" class="mui-btn mui-btn--raised btn--primary")
+      if userOrgs.length
+        form.form(action="/registerOrg" method="POST" autocomplete="off" class="mui-form form--primary")
+          legend(id="form-legend") Hey #{user.username}! 👋 Please choose your Github Organization
+          each org in userOrgs
+            div(class="mui-checkbox")
+              input(type='radio' name='org' value=org id=org class="checkbox--large")
+              label(for=org) #{org}
+          input.button(type="submit" value="Submit" class="mui-btn mui-btn--raised btn--primary")
+      else
+        p(class="mui--text-center mock-legend") Hey #{user.username}! 👋
+        p(class="mui--text-center mock-legend") It doesn't appear that you're an admin of any Github organizations. Please contact your organization's administrator to begin using Roger. 😁
