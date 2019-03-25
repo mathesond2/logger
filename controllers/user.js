@@ -56,9 +56,10 @@ exports.renderAddIssueView = (req, res) => {
 
 exports.addIssue = (req, res) => {
   const ghrepo = user.client.repo(`${user.githubOrg.name}/${req.body.repo}`);
+  const msgToSend = `${req.body.description}\n\n issue created by ${req.body.email} via Roger App.`;
   ghrepo.issue({
     "title": req.body.title,
-    "body": req.body.description,
+    "body": msgToSend,
   }, function (err, data, headers) {
     if (err) {
       req.flash('error', "Unable to create issue, please try again. 👺");
