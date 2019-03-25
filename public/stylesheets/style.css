@@ -76,10 +76,6 @@ input[type="checkbox"]:checked::after {
   content: '👍';
 }
 
-.primary-nav {
-  text-align: right;
-}
-
 .primary-nav ul {
   text-decoration: none;
   list-style: none;
@@ -89,4 +85,12 @@ input[type="checkbox"]:checked::after {
 .primary-nav li {
   display: inline-block;
   margin: auto 10px;
+}
+
+.primary-nav li + li {
+  text-align: right;
+}
+
+li {
+  list-style: none;
 }
