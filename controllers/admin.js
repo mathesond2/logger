@@ -1,5 +1,5 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
-const user = require("./../user");
+const user = require("../public/javascripts/user");
 const fs = require("fs");
 
 exports.resetCredentials = (req, res) => {
