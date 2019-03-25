@@ -1,0 +1,11 @@
+{
+  "name": "Roger",
+  "description": "An internal app to allow non githubbers to create issues in your specified repos",
+  "repository": "https://github.com/mathesond2/logger",
+  "logo": "https://github.com/mathesond2/logger/logo.svg",
+  "keywords": [
+    "node",
+    "express",
+    "static"
+  ]
+}
