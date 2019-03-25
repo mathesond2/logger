@@ -31,6 +31,7 @@ body.mui-container-fluid {
   text-decoration: none;
 }
 
+.mock-legend,
 #form-legend {
   margin-bottom: 40px;
 }
@@ -93,4 +94,19 @@ input[type="checkbox"]:checked::after {
 
 li {
   list-style: none;
+}
+
+.mock-legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 21px;
+  color: rgba(0,0,0,.87);
+  line-height: inherit;
+  border: 0;
+}
+
+.admin-link {
+  margin-bottom: 40px;
 }
