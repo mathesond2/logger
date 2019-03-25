@@ -1,8 +1,8 @@
 {
   "name": "Roger",
-  "description": "An internal app to allow non githubbers to create issues in your specified repos",
+  "description": "An internal app to allow non-github users to create issues in specified repos within your Github Organization",
   "repository": "https://github.com/mathesond2/logger",
-  "logo": "https://github.com/mathesond2/logger/logo.svg",
+  "logo": "https://github.com/mathesond2/logger/logo.png",
   "keywords": [
     "node",
     "express",
