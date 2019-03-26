@@ -80,16 +80,15 @@ input[type="checkbox"]:checked::after {
 .primary-nav ul {
   text-decoration: none;
   list-style: none;
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
 .primary-nav li {
   display: inline-block;
   margin: auto 10px;
-}
-
-.primary-nav li + li {
-  text-align: right;
 }
 
 li {

@@ -10,13 +10,12 @@ function loggedIn(req, res, next) {
 }
 
 router.get('/', userController.renderLoginView);
-router.get('/select-repos', loggedIn, userController.renderAppHomeView);
 router.post('/registerOrg', adminController.registerOrg);
 router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);
 router.get('/add-issue', loggedIn, userController.renderAddIssueView);
 router.post('/add-issue', userController.addIssue);
 router.get('/reset-credentials', adminController.resetCredentials);
-router.get('/admin', adminController.renderAdminView);
+router.get('/settings', adminController.renderSettingsView);
 
 module.exports = router;
