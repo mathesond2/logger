@@ -45,7 +45,6 @@ exports.registerOrg = (req, res) => {
       // console.log(JSON.stringify(res.locals));
       res.redirect('/');
     } else {
-      // user.orgCredentials.token = user.correctAccessToken;
       user.orgCredentials.token = req.body.token;
       user.orgCredentials.orgName = req.body.orgName;
       fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
