@@ -16,5 +16,9 @@
     "morgan": "~1.9.0",
     "octonode": "^0.9.5",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "jest": "^24.5.0",
+    "supertest": "^4.0.2"
   }
 }
