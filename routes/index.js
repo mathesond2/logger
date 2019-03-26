@@ -13,7 +13,7 @@ const fs = require("fs");
 passport.use(new GitHubStrategy({
   clientID: clientID,
   clientSecret: clientSecret,
-  callbackURL: "/login/github/callback",
+  // callbackURL: "/login/github/callback",
   scope: 'repo',
 },
   (accessToken, refreshToken, profile, cb) => {
