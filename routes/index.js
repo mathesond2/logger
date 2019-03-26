@@ -11,9 +11,8 @@ const user = require('../public/javascripts/user');
 const fs = require("fs");
 
 passport.use(new GitHubStrategy({
-  clientID: clientID,
-  clientSecret: clientSecret,
-  // callbackURL: "/login/github/callback",
+  clientID,
+  clientSecret,
   scope: 'repo',
 },
   (accessToken, refreshToken, profile, cb) => {
