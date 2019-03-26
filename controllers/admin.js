@@ -53,6 +53,6 @@ exports.registerOrg = (req, res) => {
   });
 }
 
-exports.renderAdminView = (req, res) => {
-  res.render('admin');
+exports.renderSettingsView = (req, res) => {
+  res.render('settings');
 }
