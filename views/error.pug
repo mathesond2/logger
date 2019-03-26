@@ -2,7 +2,8 @@ extends layout
 
 block content
   div(class="mui-row")
-    div(class="mui-col-md-6 mui-col-md-offset-3")
-      h1= message
-      h2= error.status
-      pre #{error.stack}
+    div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
+      div(class="form--primary")
+        p(class="mui--text-center mock-legend")= message
+        p(class="mui--text-center mock-legend")= error.status
+        p(class="mui--text-center mock-legend") Sorry‍, that's all we know! 🤷‍♂️

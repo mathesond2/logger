@@ -10,10 +10,8 @@ html
     .mui-appbar
       nav(class="primary-nav")
         ul
-          if (!user)
-            li <a href="/login">sign in</a>
-          else
-            li <a href="/">Go To App</a>
+          li <a href="/">Home</a>
+          li <a href="/settings">Settings</a>
     .mui-appbar
       if locals.flashes
         .flash-messages
@@ -22,5 +20,4 @@ html
             each message in flashes[category]
               .flash(class=`flash--${category}`)
                 p(class="mui--text-center alert-message")!= message
-                //- button.flash__remove(onClick="this.parentElement.remove()") &times;
     block content
