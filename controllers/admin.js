@@ -1,10 +1,10 @@
 const currentOrgCredentials = require("./../orgCredentials.json");
 const user = require("../public/javascripts/user");
 const fs = require("fs");
+const github = require('octonode');
 
 exports.resetCredentials = (req, res) => {
   user.removeCredentials();
-  req.logout();
   res.redirect('/');
 }
 
@@ -37,15 +37,15 @@ exports.updateRepos = (req, res) => {
 }
 
 exports.registerOrg = (req, res) => {
-  user.changeGithubOrg(req.body.org);
+  user.client = github.client(req.body.token);
+  user.changeGithubOrg(req.body.orgName);
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
-      // req.flash('error', 'Unable to register Github Org, please try again. 👺');
-      // console.log(JSON.stringify(res.locals));
+      req.flash('error', 'Unable to register your Github Org, please try again. 👺');
       res.redirect('/');
     } else {
-      user.orgCredentials.token = user.correctAccessToken;
-      user.orgCredentials.orgName = req.body.org;
+      user.orgCredentials.token = req.body.token;
+      user.orgCredentials.orgName = req.body.orgName;
       fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
       user.handleUserData(data);
       res.redirect('/update-repos');
