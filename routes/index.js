@@ -9,7 +9,6 @@ function loggedIn(req, res, next) {
   (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/');
 }
 
-// router.get('/', userController.renderSample);
 router.get('/', userController.renderLoginView);
 router.post('/register-org', adminController.registerOrg);
 router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
