@@ -9,6 +9,10 @@ exports.resetCredentials = (req, res) => {
 }
 
 exports.renderAvailableReposView = (req, res) => {
+  const parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+  user.client = github.client(parsedData.token);
+  user.githubOrg = user.client.org(parsedData.orgName); //TODO: analyze this redundancy
+
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
       console.log('ERROR: ', err)
