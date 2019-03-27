@@ -1,47 +1,13 @@
 const request = require("supertest");
 const app = require("../app");
 const fs = require("fs");
-const user1 = request.agent();
-const agent = require('supertest').agent;
+const bodyParser = require('body-parser')
+app.use(bodyParser.json());
 
-
-// const createAuthenticatedUser = (done) => {
-//   // const httpServer = app.listen();
-//   const authenticatedUser = agent(app);
-//   console.log('authenticatedUser', authenticatedUser);
-//   authenticatedUser
-//     .get('/login/github/callback')
-//     .end((error, resp) => {
-//       done(authenticatedUser);
-//       // httpServer.close();
-//     });
-// }
-
-// describe('GET /select-repos', () => {
-//   test('it should work', () => {
-//     createAuthenticatedUser(async (request) => {
-//       const response = await request(app).get('/blah-repos');
-//       console.log('response.statusCode', response.statusCode);
-//       expect(response.statusCode).toBe(404);
-//       // request
-//       //   .get('/blah-repos')
-//       //   .expect(200)
-//       //   .end((err, res) => {
-//       //     console.log(res.body);
-//       //     // t.end(err);
-//       //   });
-//     });
-//   });
-// });
-
-
-// user1
-//   .post('http://localhost:3000/login/github')
-//   .send({ user: 'hunter@hunterloftis.com', password: 'password' })
-//   .end(function (err, res) {
-//     // user1 will manage its own cookies
-//     // res.redirects contains an Array of redirects
-//   });
+const credentials = {
+  token: process.env.PERSONAL_ACCESS_TOKEN,
+  orgName: process.env.GITHUB_ORG,
+};
 
 describe('GET /nowhere', () => {
   test('404 should be returned', async () => {
@@ -67,37 +33,79 @@ describe('GET /', () => {
 });
 
 describe('POST /register-org', () => {
-  test('302 should be returned', async () => {
-    const response = await request(app).post('/register-org');
-    expect(response.statusCode).toBe(404);
+  let response;
+  beforeAll(async () => {
+    try {
+      response = await request(app)
+        .post('/register-org')
+        .send(credentials)
+        .set('Accept', 'application/json');
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
   });
-});
 
-/* 
-3. 'POST /registerOrg' request (must do auth beforehand)..
-  * should return status code for success
-  * should return data
-*/
-
-/* 
-4. 'GET /update-repos' request (must do auth beforehand)
-  * should return status code for success
-  * should return data
-*/
-
-/** 
- * 
- * POST update-repos
-*/
-
-describe('GET /add-issue without auth', () => {
-  test('non-authed routes should redirect', async () => {
-    const response = await request(app).get('/add-issue');
+  test('302 should be returned', () => {
     expect(response.statusCode).toBe(302);
   });
+
+  test('credentials should be saved', () => {
+    let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+    console.log(parsedData);
+    // console.log(response);
+    expect(Object.keys(parsedData).length).toBeGreaterThan(0);
+    expect(Object.keys(parsedData)).toContain('token');
+    expect(Object.keys(parsedData)).toContain('orgName');
+  });
 });
 
-// GET /add-issue with auth
+describe('GET /add-issue', () => {
+  let response;
+  let parsedData;
+  beforeAll(async () => {
+    parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+    try {
+      response = await request(app).get('/add-issue');
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  });
+
+  test('non-authed routes should redirect', async () => {
+    if (Object.keys(parsedData).length === 0) {
+      expect(response.statusCode).toBe(302);
+    }
+  });
+
+  test('200 should be returned', async () => {
+    if (Object.keys(parsedData).length !== 0) {
+      expect(response.statusCode).toBe(200);
+    }
+  });
+});
+
+// describe('GET /update-repos', () => {
+//   let response;
+//   beforeAll(async () => {
+//     try {
+//       fs.writeFile('./orgCredentials.json', JSON.stringify(credentials), 'utf8', function () { });
+
+//       response = await request(app).get('/update-repos');
+//       expect(response.statusCode).toBe(302);
+//     } catch (err) {
+//       console.log(`Error: ${err}`);
+//     }
+//   });
+
+//   test('200 should be returned', () => {
+//     expect(response.statusCode).toBe(200);
+//   });
+// });
+
+/**
+ *
+ * POST update-repos
+*/
 
 /*
 6. 'POST /add-issue' request (must do auth beforehand)
@@ -105,22 +113,30 @@ describe('GET /add-issue without auth', () => {
   * should return data
  */
 
-describe('GET /reset-credentials', () => {
-  test('credentials should be removed', async () => {
-    const response = await request(app).get('/reset-credentials');
-    let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-    expect(Object.keys(parsedData).length).toEqual(0);
-  });
-
-  test('re-direct should occur', async () => {
-    const response = await request(app).get('/reset-credentials');
-    expect(response.statusCode).toBe(302);
-  });
-});
-
 describe('GET /settings', () => {
   test('settings view should be rendered', async () => {
     const response = await request(app).get('/settings').type('text/html');
     expect(response.text).toBeDefined();
   });
 });
+
+// describe('GET /reset-credentials', () => {
+//   let response;
+//   let parsedData;
+//   beforeAll(async () => {
+//     parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+//     try {
+//       response = await request(app).get('/reset-credentials');
+//     } catch (err) {
+//       console.log(`Error: ${err}`);
+//     }
+//   });
+
+//   test('credentials should be removed', async () => {
+//     expect(Object.keys(parsedData).length).toEqual(0);
+//   });
+
+//   test('re-direct should occur', async () => {
+//     expect(response.statusCode).toBe(302);
+//   });
+// });
