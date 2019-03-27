@@ -17,16 +17,21 @@ describe('GET /nowhere', () => {
 });
 
 describe('GET /', () => {
-  test('index view should be rendered', async () => {
-    const response = await request(app).get('/').type('text/html');
+  beforeAll(async () => {
+    try {
+      response = await request(app).get('/');
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  });
+
+  test('view should be rendered', () => {
     expect(response.text).toBeDefined();
   });
 
-  test('index view should be redirected if credentials exist', async () => {
+  test('view should be redirected if credentials exist', () => {
     try {
       let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-      const response = await request(app).get('/');
-
       if (Object.keys(parsedData).length !== 0) {
         expect(response.statusCode).toBe(302);
       }
@@ -55,8 +60,6 @@ describe('POST /register-org', () => {
 
   test('credentials should be saved', () => {
     let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-    console.log(parsedData);
-    // console.log(response);
     expect(Object.keys(parsedData).length).toBeGreaterThan(0);
     expect(Object.keys(parsedData)).toContain('token');
     expect(Object.keys(parsedData)).toContain('orgName');
@@ -75,50 +78,49 @@ describe('GET /add-issue', () => {
     }
   });
 
-  test('non-authed routes should redirect', async () => {
+  test('non-authed routes should redirect', () => {
     if (Object.keys(parsedData).length === 0) {
       expect(response.statusCode).toBe(302);
     }
   });
 
-  test('200 should be returned', async () => {
+  test('200 should be returned', () => {
     if (Object.keys(parsedData).length !== 0) {
       expect(response.statusCode).toBe(200);
     }
   });
+
+  test('view should be rendered', () => {
+    expect(response.text).toBeDefined();
+  });
 });
 
-// describe('GET /update-repos', () => {
-//   let response;
-//   beforeAll(async () => {
-//     try {
-//       fs.writeFile('./orgCredentials.json', JSON.stringify(credentials), 'utf8', function () { });
+describe('GET /update-repos', () => {
+  let response;
+  beforeAll(async () => {
+    try {
+      response = await request(app).get('/update-repos');
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  });
 
-//       response = await request(app).get('/update-repos');
-//       expect(response.statusCode).toBe(302);
-//     } catch (err) {
-//       console.log(`Error: ${err}`);
-//     }
-//   });
+  test('200 should be returned', () => {
+    expect(response.statusCode).toBe(200);
+  });
 
-//   test('200 should be returned', () => {
-//     expect(response.statusCode).toBe(200);
-//   });
-// });
+  test('view should be rendered', () => {
+    expect(response.text).toBeDefined();
+  });
+});
 
 /**
  *
  * POST update-repos
 */
 
-/*
-6. 'POST /add-issue' request (must do auth beforehand)
-  * should return status code for success
-  * should return data
- */
-
 describe('GET /settings', () => {
-  test('settings view should be rendered', async () => {
+  test('view should be rendered', async () => {
     try {
       const response = await request(app).get('/settings').type('text/html');
       expect(response.text).toBeDefined();
