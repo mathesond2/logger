@@ -114,10 +114,30 @@ describe('GET /update-repos', () => {
   });
 });
 
-/**
- *
- * POST update-repos
-*/
+describe('POST /update-repos', () => {
+  let response;
+  let reposToUpdate = ['bigTest1', 'bigTest2'];
+
+  beforeAll(async () => {
+    try {
+      response = await request(app)
+        .post('/update-repos')
+        .send(reposToUpdate)
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  });
+
+  test('302 should be returned', () => {
+    expect(response.statusCode).toBe(302);
+  });
+
+  // test('credentials should contain availableRepos', () => {
+  //   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+  //   expect(Object.keys(parsedData)).toContain('availableRepos');
+  // });
+});
 
 describe('GET /settings', () => {
   test('view should be rendered', async () => {
