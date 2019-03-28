@@ -15,16 +15,17 @@ exports.validateRegister = (req, res, next) => {
 
   req.checkBody('password', 'Password must not be blank!').notEmpty();
   req.checkBody('passwordConfirm', 'Confirmed Password must not be blank!').notEmpty();
-  req.checkBody('passwordConfirm', 'Confirmed Password and Password must match!').equals(req.body.password);
+  req.checkBody('passwordConfirm', 'Passwords must match!').equals(req.body.password);
 
   const errors = req.validationErrors();
   if (errors) {
     console.log('errors', errors);
-    // req.flash('error', errors.map(err => { err.msg }));
-    res.render('/sign-up', {
+    errors.map(err => { req.flash('error', err.msg); });
+    res.render('index', {
       body: req.body,
-      // flashes: req.flash();
+      flashes: req.flash(),
     });
+    return;
   }
   next();
 }
