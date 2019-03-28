@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
+const authController = require('../controllers/auth');
 const fs = require("fs");
 
 function loggedIn(req, res, next) {
@@ -10,6 +11,11 @@ function loggedIn(req, res, next) {
 }
 
 router.get('/', userController.renderLoginView);
+router.post('/sign-up',
+  userController.validateRegister,
+  userController.register,
+  authController.login,
+);
 router.post('/register-org', adminController.registerOrg);
 router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);

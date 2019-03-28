@@ -2,6 +2,45 @@ const currentOrgCredentials = require("./../orgCredentials.json");
 const user = require("../public/javascripts/user");
 const github = require('octonode');
 const fs = require("fs");
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
+
+exports.validateRegister = (req, res, next) => {
+  req.checkBody('email', 'Your email address is not valid!').isEmail();
+  req.sanitizeBody('email').normalizeEmail({
+    remove_dots: false,
+    remove_extension: false,
+    gmail_remove_subaddress: false,
+  });
+
+  req.checkBody('password', 'Password must not be blank!').notEmpty();
+  req.checkBody('passwordConfirm', 'Confirmed Password must not be blank!').notEmpty();
+  req.checkBody('passwordConfirm', 'Confirmed Password and Password must match!').equals(req.body.password);
+
+  const errors = req.validationErrors();
+  if (errors) {
+    console.log('errors', errors);
+    // req.flash('error', errors.map(err => { err.msg }));
+    res.render('/sign-up', {
+      body: req.body,
+      // flashes: req.flash();
+    });
+  }
+  next();
+}
+
+exports.register = async (req, res, next) => {
+  try {
+    const user = new User({ email: req.body.email });
+    // await register(user, req.body.password); //this 'register()' fn comes from 'passport-local-mongoose' doing the hashing and lower level stuff for us.
+    await user.setPassword(req.body.password);
+    await user.save();
+  } catch (error) {
+    console.log('error!', error);
+  }
+  next();
+}
+
 
 exports.renderLoginView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
