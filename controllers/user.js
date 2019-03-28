@@ -70,11 +70,11 @@ exports.renderAddIssueView = (req, res) => {
       } else {
         user.handleUserData(data);
         user.filterUserData();
-        res.render('add-issue', { orgRepos: user.orgRepos });
+        res.render('add-issue', { user: req.user, orgRepos: user.orgRepos });
       }
     });
   } else {
-    res.render('add-issue', { orgRepos: user.orgRepos });
+    res.render('add-issue', { user: req.user, orgRepos: user.orgRepos });
   }
 }
 
