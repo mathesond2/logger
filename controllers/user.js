@@ -51,6 +51,9 @@ exports.renderRegisterOrgView = (req, res, next) => {
   }
 }
 
+exports.renderLoginView = (req, res, next) => {
+  res.render('login', { user: req.user });
+}
 
 exports.renderSignUpView = (req, res, next) => {
   res.render('index', { user: req.user });
