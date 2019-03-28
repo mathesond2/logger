@@ -16,7 +16,8 @@ router.post('/sign-up',
   userController.register,
   authController.login,
 );
-router.get('/register-org', userController.renderLoginView);
+router.get('/login', userController.renderLoginView);
+router.get('/register-org', userController.renderRegisterOrgView);
 router.post('/register-org', adminController.registerOrg);
 router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);
