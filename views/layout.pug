@@ -11,8 +11,9 @@ html
       nav(class="primary-nav")
         ul
           li <a href="/">Home</a>
+          if (user)
+            li <a href="/settings">Settings</a>
           li <a href="/login">Login</a>
-          li <a href="/settings">Settings</a>
     .mui-appbar
       if locals.flashes
         .flash-messages
