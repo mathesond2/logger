@@ -13,13 +13,29 @@ router.post('/sign-up',
 router.get('/login', userController.renderLoginView);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
-router.get('/register-org', userController.renderRegisterOrgView);
-router.post('/register-org', adminController.registerOrg);
-router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
-router.post('/update-repos', adminController.updateRepos);
-router.get('/add-issue', loggedIn, userController.renderAddIssueView);
-router.post('/add-issue', userController.addIssue);
+router.get('/register-org',
+  authController.isLoggedIn,
+  userController.renderRegisterOrgView);
+router.post('/register-org',
+  authController.isLoggedIn,
+  adminController.registerOrg);
+router.get('/update-repos',
+  authController.isLoggedIn,
+  authController.hasSavedCredentials,
+  adminController.renderAvailableReposView);
+router.post('/update-repos',
+  authController.isLoggedIn,
+  adminController.updateRepos);
+router.get('/add-issue',
+  authController.isLoggedIn,
+  authController.hasSavedCredentials,
+  userController.renderAddIssueView);
+router.post('/add-issue',
+  authController.isLoggedIn,
+  userController.addIssue);
 router.get('/reset-credentials', adminController.resetCredentials);
-router.get('/settings', adminController.renderSettingsView);
+router.get('/settings',
+  authController.isLoggedIn,
+  adminController.renderSettingsView);
 
 module.exports = router;
