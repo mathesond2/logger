@@ -7,5 +7,10 @@
     "node",
     "express",
     "static"
+  ],
+  "addons": [
+    {
+      "plan": "mongolab:sandbox"
+    }
   ]
 }
