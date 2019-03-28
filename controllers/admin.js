@@ -9,6 +9,10 @@ exports.resetCredentials = (req, res) => {
 }
 
 exports.renderAvailableReposView = (req, res) => {
+  const parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+  user.client = github.client(parsedData.token);
+  user.githubOrg = user.client.org(parsedData.orgName); //TODO: analyze this redundancy
+
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
       console.log('ERROR: ', err)
@@ -20,6 +24,7 @@ exports.renderAvailableReposView = (req, res) => {
 }
 
 exports.updateRepos = (req, res) => {
+  console.log('req.body.repos', req.body.repos);
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
   user.orgRepos.forEach((obj, i) => {
     if (!availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);

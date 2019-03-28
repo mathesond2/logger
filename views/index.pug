@@ -4,7 +4,7 @@ block content
   div(class="mui-row")
     div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
       if userOrgs.length
-        form.form(action="/registerOrg" method="POST" autocomplete="off" class="mui-form form--primary")
+        form.form(action="/register-org" method="POST" autocomplete="off" class="mui-form form--primary")
           legend(id="form-legend") Hey #{user.username}! 👋 Please choose your Github Organization
           each org in userOrgs
             div(class="mui-checkbox")

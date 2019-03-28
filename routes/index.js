@@ -10,7 +10,7 @@ function loggedIn(req, res, next) {
 }
 
 router.get('/', userController.renderLoginView);
-router.post('/registerOrg', adminController.registerOrg);
+router.post('/register-org', adminController.registerOrg);
 router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);
 router.get('/add-issue', loggedIn, userController.renderAddIssueView);
