@@ -5,7 +5,7 @@ const fs = require("fs");
 exports.login = passport.authenticate('local', {
   failureRedirect: '/login',
   failureFlash: 'Failed Login!',
-  successRedirect: '/register-org',
+  successRedirect: '/',
   successFlash: 'you are logged in! 🎉',
 });
 
@@ -31,5 +31,22 @@ exports.hasSavedCredentials = (req, res, next) => {
     return;
   }
   req.flash('error', 'You must register your organization to do that! 👺');
+  res.redirect('/register-org');
+}
+
+exports.isLoggedAndHasSavedCredentials = (req, res, next) => {
+  let currentCredentials = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+  console.log(Object.keys(currentCredentials));
+  if (!req.isAuthenticated()) {
+    next();
+    return;
+  }
+
+  if (req.isAuthenticated() && Object.keys(currentCredentials).length > 0) {
+    if (Object.keys(currentCredentials).includes('availableRepos')) {
+      res.redirect('/add-issue');
+    }
+    res.redirect('/update-repos');
+  }
   res.redirect('/register-org');
 }

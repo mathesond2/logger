@@ -4,7 +4,9 @@ const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
 const authController = require('../controllers/auth');
 
-router.get('/', userController.renderSignUpView);
+router.get('/',
+  authController.isLoggedAndHasSavedCredentials,
+  userController.renderSignUpView);
 router.post('/sign-up',
   userController.validateRegister,
   userController.register,
