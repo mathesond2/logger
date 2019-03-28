@@ -3,7 +3,7 @@ extends layout
 block content
   div(class="mui-row")
     div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
-      form.form(action="/sign-up" method="POST" class="mui-form form--primary")
+      form.form(action="/sign-up" method="POST" class="mui-form form--primary" autocomplete="off")
         legend(id="form-legend") Sign Up
         div(class="mui-textfield")
           label(for="email") email
