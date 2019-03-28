@@ -10,13 +10,14 @@ function loggedIn(req, res, next) {
   (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/register-org');
 }
 
-router.get('/sign-up', userController.renderSignUpView); //temp
+router.get('/', userController.renderSignUpView); //temp
 router.post('/sign-up',
   userController.validateRegister,
   userController.register,
   authController.login,
 );
 router.get('/login', userController.renderLoginView);
+router.get('/logout', authController.logout);
 router.get('/register-org', userController.renderRegisterOrgView);
 router.post('/register-org', adminController.registerOrg);
 router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
