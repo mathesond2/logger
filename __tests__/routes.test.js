@@ -17,10 +17,10 @@ describe('GET /nowhere', () => {
   });
 });
 
-describe('GET /', () => {
+describe('GET /register-org', () => {
   beforeAll(async () => {
     try {
-      response = await request(app).get('/');
+      response = await request(app).get('/register-org');
     } catch (err) {
       console.log(`Error: ${err}`);
     }

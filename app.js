@@ -5,10 +5,12 @@ const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const logger = require('morgan');
 const flash = require('connect-flash');
+const passport = require('passport');
 const session = require('express-session');
 const indexRouter = require('./routes/index');
+require('./handlers/passport');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +25,11 @@ app.use(expressValidator());
 
 app.use(cookieParser('secret'));
 app.use(session({ cookie: { maxAge: 60000, } }));
+
+// Passport JS is what we use to handle our logins
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
 app.use((req, res, next) => {
