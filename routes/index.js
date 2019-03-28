@@ -3,14 +3,8 @@ const router = express.Router();
 const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
 const authController = require('../controllers/auth');
-const fs = require("fs");
 
-function loggedIn(req, res, next) {
-  let currentCredentials = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/register-org');
-}
-
-router.get('/', userController.renderSignUpView); //temp
+router.get('/', userController.renderSignUpView);
 router.post('/sign-up',
   userController.validateRegister,
   userController.register,
