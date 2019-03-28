@@ -5,7 +5,7 @@ const github = require('octonode');
 
 exports.resetCredentials = (req, res) => {
   user.removeCredentials();
-  res.redirect('/');
+  res.redirect('/register-org');
 }
 
 exports.renderAvailableReposView = (req, res) => {
@@ -47,7 +47,7 @@ exports.registerOrg = (req, res) => {
   user.githubOrg.repos((err, data, headers) => {
     if (err) {
       req.flash('error', 'Unable to register your Github Org, please try again. 👺');
-      res.redirect('/');
+      res.redirect('/register-org');
     } else {
       user.orgCredentials.token = req.body.token;
       user.orgCredentials.orgName = req.body.orgName;

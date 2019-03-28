@@ -4,6 +4,6 @@ const passport = require('passport');
 exports.login = passport.authenticate('local', {
   failureRedirect: '/sign-up',
   failureFlash: 'Failed Login!',
-  successRedirect: '/',
+  successRedirect: '/register-org',
   successFlash: 'you are logged in!',
 });

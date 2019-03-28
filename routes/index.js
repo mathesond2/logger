@@ -7,16 +7,16 @@ const fs = require("fs");
 
 function loggedIn(req, res, next) {
   let currentCredentials = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/');
+  (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/register-org');
 }
 
-router.get('/', userController.renderLoginView);
 router.get('/sign-up', userController.renderSignUpView); //temp
 router.post('/sign-up',
   userController.validateRegister,
   userController.register,
   authController.login,
 );
+router.get('/register-org', userController.renderLoginView);
 router.post('/register-org', adminController.registerOrg);
 router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
 router.post('/update-repos', adminController.updateRepos);
