@@ -11,6 +11,7 @@ function loggedIn(req, res, next) {
 }
 
 router.get('/', userController.renderLoginView);
+router.get('/sign-up', userController.renderSignUpView); //temp
 router.post('/sign-up',
   userController.validateRegister,
   userController.register,

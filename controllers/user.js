@@ -51,6 +51,11 @@ exports.renderLoginView = (req, res, next) => {
   }
 }
 
+
+exports.renderSignUpView = (req, res, next) => {
+  res.render('index', { user: req.user });
+}
+
 exports.renderAddIssueView = (req, res) => {
   if (Object.keys(currentOrgCredentials).length) {
     user.client = github.client(currentOrgCredentials.token);

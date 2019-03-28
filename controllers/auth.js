@@ -2,8 +2,8 @@ const passport = require('passport');
 
 //strategy = something will interface with checking if you're allowed to login.
 exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
+  failureRedirect: '/sign-up',
   failureFlash: 'Failed Login!',
-  successRedirect: '/home',
+  successRedirect: '/',
   successFlash: 'you are logged in!',
-}); 
+});
