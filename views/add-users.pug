@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  div(class="mui-row")
+    div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
+      form.form(action="/add-users" method="POST" class="mui-form form--primary" autocomplete="off")
+        legend(id="form-legend") Add users
+        div(class="mui-textfield")
+          label(for="email1") email
+          input(type="email" name="email1")
+        div(class="mui-textfield")
+          label(for="email2") email
+          input(type="email" name="email2")
+        div(class="mui-textfield")
+          label(for="email3") email
+          input(type="email" name="email3")
+        div(class="mui-textfield")
+          label(for="email4") email
+          input(type="email" name="email4")
+        div(class="mui-textfield")
+          label(for="email5") email
+          input(type="email" name="email5")
+        input.button(type="submit" value="Submit" class="mui-btn mui-btn--raised btn--primary")

@@ -25,6 +25,12 @@ router.get('/update-repos',
   authController.isLoggedIn,
   authController.hasSavedCredentials,
   adminController.renderAvailableReposView);
+router.get('/add-users',
+  authController.isLoggedIn,
+  adminController.renderAddUsersView);
+router.post('/add-users',
+  authController.isLoggedIn,
+  adminController.addUsers);
 router.post('/update-repos',
   authController.isLoggedIn,
   adminController.updateRepos);

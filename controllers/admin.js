@@ -24,6 +24,14 @@ exports.renderAvailableReposView = (req, res) => {
   });
 }
 
+exports.renderAddUsersView = (req, res) => {
+  res.render('add-users', { user: req.user });
+}
+
+exports.addUsers = (req, res) => {
+  console.log(req.body);
+}
+
 exports.updateRepos = (req, res) => {
   console.log('req.body.repos', req.body.repos);
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
