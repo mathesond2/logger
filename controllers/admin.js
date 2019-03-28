@@ -5,6 +5,7 @@ const github = require('octonode');
 
 exports.resetCredentials = (req, res) => {
   user.removeCredentials();
+  req.flash('success', "Credentials reset! 🎉");
   res.redirect('/register-org');
 }
 
