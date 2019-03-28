@@ -8,7 +8,8 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const indexRouter = require('./routes/index');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+require('./handlers/passport');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
