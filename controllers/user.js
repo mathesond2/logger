@@ -42,14 +42,8 @@ exports.register = async (req, res, next) => {
   next();
 }
 
-
 exports.renderRegisterOrgView = (req, res, next) => {
-  let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  if (Object.keys(parsedData).length !== 0) {
-    res.redirect('/add-issue');
-  } else {
-    res.render('register-org', { user: req.user });
-  }
+  res.render('register-org', { user: req.user });
 }
 
 exports.renderLoginView = (req, res, next) => {
@@ -70,11 +64,11 @@ exports.renderAddIssueView = (req, res) => {
       } else {
         user.handleUserData(data);
         user.filterUserData();
-        res.render('add-issue', { orgRepos: user.orgRepos });
+        res.render('add-issue', { user: req.user, orgRepos: user.orgRepos });
       }
     });
   } else {
-    res.render('add-issue', { orgRepos: user.orgRepos });
+    res.render('add-issue', { user: req.user, orgRepos: user.orgRepos });
   }
 }
 

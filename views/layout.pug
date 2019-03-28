@@ -13,7 +13,8 @@ html
           li <a href="/">Home</a>
           if (user)
             li <a href="/settings">Settings</a>
-          li <a href="/login">Login</a>
+          else
+            li <a href="/login">Login</a>
     .mui-appbar
       if locals.flashes
         .flash-messages

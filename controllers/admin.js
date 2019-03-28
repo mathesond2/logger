@@ -5,6 +5,7 @@ const github = require('octonode');
 
 exports.resetCredentials = (req, res) => {
   user.removeCredentials();
+  req.flash('success', "Credentials reset! 🎉");
   res.redirect('/register-org');
 }
 
@@ -18,7 +19,7 @@ exports.renderAvailableReposView = (req, res) => {
       console.log('ERROR: ', err)
     } else {
       user.handleUserData(data);
-      res.render('update-repos', { orgRepos: user.orgRepos });
+      res.render('update-repos', { user: req.user, orgRepos: user.orgRepos });
     }
   });
 }
@@ -59,5 +60,5 @@ exports.registerOrg = (req, res) => {
 }
 
 exports.renderSettingsView = (req, res) => {
-  res.render('settings');
+  res.render('settings', { user: req.user });
 }

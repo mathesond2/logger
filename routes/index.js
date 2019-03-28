@@ -3,14 +3,10 @@ const router = express.Router();
 const adminController = require('../controllers/admin');
 const userController = require('../controllers/user');
 const authController = require('../controllers/auth');
-const fs = require("fs");
 
-function loggedIn(req, res, next) {
-  let currentCredentials = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  (req.user || Object.keys(currentCredentials).length) ? next() : res.redirect('/register-org');
-}
-
-router.get('/', userController.renderSignUpView); //temp
+router.get('/',
+  authController.isLoggedAndHasSavedCredentials,
+  userController.renderSignUpView);
 router.post('/sign-up',
   userController.validateRegister,
   userController.register,
@@ -19,13 +15,29 @@ router.post('/sign-up',
 router.get('/login', userController.renderLoginView);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
-router.get('/register-org', userController.renderRegisterOrgView);
-router.post('/register-org', adminController.registerOrg);
-router.get('/update-repos', loggedIn, adminController.renderAvailableReposView);
-router.post('/update-repos', adminController.updateRepos);
-router.get('/add-issue', loggedIn, userController.renderAddIssueView);
-router.post('/add-issue', userController.addIssue);
+router.get('/register-org',
+  authController.isLoggedIn,
+  userController.renderRegisterOrgView);
+router.post('/register-org',
+  authController.isLoggedIn,
+  adminController.registerOrg);
+router.get('/update-repos',
+  authController.isLoggedIn,
+  authController.hasSavedCredentials,
+  adminController.renderAvailableReposView);
+router.post('/update-repos',
+  authController.isLoggedIn,
+  adminController.updateRepos);
+router.get('/add-issue',
+  authController.isLoggedIn,
+  authController.hasSavedCredentials,
+  userController.renderAddIssueView);
+router.post('/add-issue',
+  authController.isLoggedIn,
+  userController.addIssue);
 router.get('/reset-credentials', adminController.resetCredentials);
-router.get('/settings', adminController.renderSettingsView);
+router.get('/settings',
+  authController.isLoggedIn,
+  adminController.renderSettingsView);
 
 module.exports = router;
