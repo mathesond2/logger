@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  div(class="mui-row")
+    div(class="mui-col-md-8 mui-col-md-offset-2 mui-panel")
+      form.form(action="/register-org" method="POST" autocomplete="off" class="mui-form form--primary")
+        legend(id="form-legend") Are you an admin of a Github Organization? Register the org name and add a <a href='https://github.com/settings/tokens'>personal access token</a>.
+        div(class="mui-textfield")
+          label(for="token") Personal Access Token
+          input(type="text" name="token" required)
+        div(class="mui-textfield")
+          label(for="orgName") Organization Name
+          input(type="text" name="orgName" required)
+        input.button(type="submit" value="Register" class="mui-btn mui-btn--raised btn--primary")
