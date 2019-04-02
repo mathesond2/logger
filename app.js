@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(expressValidator());
 
 app.use(cookieParser('secret'));
-app.use(session({ cookie: { maxAge: 60000, } }));
+app.use(session({ cookie: { maxAge: 3600000, } })); //1 hour
 
 // Passport JS is what we use to handle our logins
 app.use(passport.initialize());
