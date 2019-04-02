@@ -12,7 +12,6 @@ router.post('/sign-up',
   userController.register,
   authController.login,
 );
-router.get('/login', userController.renderLoginView);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
 router.get('/register-org',

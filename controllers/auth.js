@@ -3,7 +3,7 @@ const fs = require("fs");
 
 //strategy = something will interface with checking if you're allowed to login.
 exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
+  failureRedirect: '/',
   failureFlash: 'Failed Login!',
   successRedirect: '/',
   successFlash: 'you are logged in! 🎉',
@@ -21,7 +21,7 @@ exports.isLoggedIn = (req, res, next) => {
     return;
   }
   req.flash('error', 'You must be logged in to do that! 👺');
-  res.redirect('/login');
+  res.redirect('/');
 }
 
 exports.hasSavedCredentials = (req, res, next) => {
