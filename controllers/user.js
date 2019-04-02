@@ -74,7 +74,7 @@ exports.renderAddIssueView = (req, res) => {
 
 exports.addIssue = (req, res) => {
   const ghrepo = user.client.repo(`${user.githubOrg.name}/${req.body.repo}`);
-  const msgToSend = `${req.body.description}\n\n issue created by ${req.body.email} via Roger App.`;
+  const msgToSend = `${req.body.description}\n\n issue created by ${req.user.email} via Roger App.`;
   ghrepo.issue({
     "title": req.body.title,
     "body": msgToSend,
