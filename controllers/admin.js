@@ -34,8 +34,8 @@ exports.renderAddUsersView = (req, res) => {
 exports.validateRegisterUsers = (req, res, next) => {
   Object.keys(req.body).map((item, i) => {
     if (req.body[item] !== '' && item !== 'password') {
-      req.checkBody('password', 'Password must not be blank!').notEmpty();
-      req.checkBody(`email${i}`, `email address ${i + 1} is not valid!`).isEmail();
+      req.checkBody('password', 'Password must not be blank! 👺').notEmpty();
+      req.checkBody(`email${i}`, `email address "${req.body[item]}" is not valid! 👺`).isEmail();
       req.sanitizeBody(`email${i}`).normalizeEmail({
         remove_dots: false,
         remove_extension: false,
@@ -46,7 +46,7 @@ exports.validateRegisterUsers = (req, res, next) => {
 
       if (errors) {
         console.log('errors', errors);
-        errors.map(err => { req.flash('error', err.msg); });
+        errors.map(err => { req.flash(`Error: ${err.msg} 👺`); });
         res.render('add-users', {
           body: req.body,
           flashes: req.flash(),
@@ -68,7 +68,8 @@ exports.registerUsers = async (req, res, next) => {
         await user.setPassword(req.body.password);
         await user.save();
       } catch (error) {
-        req.flash('error', error.msg);
+        req.flash(`Error: ${error} 👺`);
+        res.redirect(`/add-users`);
         res.render('add-users', {
           body: req.body,
           flashes: req.flash(),

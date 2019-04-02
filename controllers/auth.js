@@ -36,7 +36,6 @@ exports.hasSavedCredentials = (req, res, next) => {
 
 exports.isLoggedAndHasSavedCredentials = (req, res, next) => {
   let currentCredentials = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
-  console.log(Object.keys(currentCredentials));
   if (!req.isAuthenticated()) {
     next();
     return;
