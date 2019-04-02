@@ -28,8 +28,55 @@ exports.renderAddUsersView = (req, res) => {
   res.render('add-users', { user: req.user });
 }
 
-exports.addUsers = (req, res) => {
-  console.log(req.body);
+exports.validateRegisterUsers = (req, res, next) => {
+  Object.keys(req.body).map((item, i) => {
+    if (req.body[item] !== '' && item !== 'password') {
+      req.checkBody('password', 'Password must not be blank!').notEmpty();
+      req.checkBody(`email${i}`, `email address ${i + 1} is not valid!`).isEmail();
+      req.sanitizeBody(`email${i}`).normalizeEmail({
+        remove_dots: false,
+        remove_extension: false,
+        gmail_remove_subaddress: false,
+      });
+
+      const errors = req.validationErrors();
+
+      if (errors) {
+        console.log('errors', errors);
+        errors.map(err => { req.flash('error', err.msg); });
+        res.render('add-users', {
+          body: req.body,
+          flashes: req.flash(),
+        });
+        return;
+      }
+    }
+  });
+  next();
+}
+
+exports.registerUsers = async (req, res, next) => {
+  Object.keys(req.body).map(async (item) => {
+    if (req.body[item] !== '' && item !== 'password') {
+      try {
+        const user = new User({ email: req.body[item] });
+        const register = promisify(User.register, User);
+        await register(user, req.body.password);  //this 'register()' fn comes from 'passport-local-mongoose' doing the hashing and lower level stuff for us.
+        await user.setPassword(req.body.password);
+        await user.save();
+      } catch (error) {
+        req.flash('error', error.msg);
+        res.render('add-users', {
+          body: req.body,
+          flashes: req.flash(),
+        });
+        return;
+      }
+    }
+  });
+
+  req.flash('success', 'successfully created users 🎉');
+  res.redirect(`/add-users`);
 }
 
 exports.updateRepos = (req, res) => {

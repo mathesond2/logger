@@ -30,7 +30,9 @@ router.get('/add-users',
   adminController.renderAddUsersView);
 router.post('/add-users',
   authController.isLoggedIn,
-  adminController.addUsers);
+  adminController.validateRegisterUsers,
+  adminController.registerUsers,
+);
 router.post('/update-repos',
   authController.isLoggedIn,
   adminController.updateRepos);
