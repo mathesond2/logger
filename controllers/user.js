@@ -53,7 +53,9 @@ exports.renderLoginView = (req, res, next) => {
 }
 
 exports.renderSignUpView = (req, res, next) => {
-  res.render('index', { user: req.user });
+  let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
+  const hasSavedOrgData = Object.keys(parsedData).length ? true : false;
+  res.render('index', { user: req.user, isFirstTimeUser: hasSavedOrgData });
 }
 
 exports.renderAddIssueView = (req, res) => {
