@@ -79,7 +79,7 @@ exports.registerUsers = async (req, res, next) => {
     }
   });
 
-  req.flash('success', 'successfully created users 🎉');
+  req.flash('success', 'success! 🎉');
   res.redirect(`/add-users`);
 }
 

@@ -16,7 +16,7 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Invalid Emaill Address'],
-    required: 'Please add you email address',
+    required: 'Please add your email address',
   }
 });
 
