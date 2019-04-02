@@ -4,6 +4,7 @@ const github = require('octonode');
 const fs = require("fs");
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const promisify = require('es6-promisify');
 
 exports.validateRegister = (req, res, next) => {
   req.checkBody('email', 'Your email address is not valid!').isEmail();
@@ -33,7 +34,8 @@ exports.validateRegister = (req, res, next) => {
 exports.register = async (req, res, next) => {
   try {
     const user = new User({ email: req.body.email });
-    // await register(user, req.body.password); //this 'register()' fn comes from 'passport-local-mongoose' doing the hashing and lower level stuff for us.
+    const register = promisify(User.register, User);
+    await register(user, req.body.password);
     await user.setPassword(req.body.password);
     await user.save();
   } catch (error) {
