@@ -48,10 +48,6 @@ exports.renderRegisterOrgView = (req, res, next) => {
   res.render('register-org', { user: req.user });
 }
 
-exports.renderLoginView = (req, res, next) => {
-  res.render('login', { user: req.user });
-}
-
 exports.renderSignUpView = (req, res, next) => {
   let parsedData = JSON.parse(fs.readFileSync('./orgCredentials.json', 'utf8'));
   const hasSavedOrgData = Object.keys(parsedData).length ? true : false;
