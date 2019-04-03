@@ -4,10 +4,12 @@ const fs = require("fs");
 const github = require('octonode');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const OrgCredentials = mongoose.model('OrgCredentials');
 const promisify = require('es6-promisify');
 
-exports.resetCredentials = (req, res) => {
+exports.resetCredentials = async (req, res) => {
   user.removeCredentials();
+  await OrgCredentials.remove();
   req.flash('success', "Credentials reset! 🎉");
   res.redirect('/register-org');
 }
@@ -83,7 +85,7 @@ exports.registerUsers = async (req, res, next) => {
   res.redirect(`/add-users`);
 }
 
-exports.updateRepos = (req, res) => {
+exports.updateRepos = async (req, res) => {
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
   user.orgRepos = user.orgRepos.filter((item) => availableRepos.includes(item.name));
 
@@ -94,6 +96,22 @@ exports.updateRepos = (req, res) => {
     }
     user.orgCredentials.availableRepos = availableRepos;
     fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
+
+    try {
+      await OrgCredentials.findOneAndUpdate(
+        { "orgName": user.orgCredentials.orgName },
+        { $set: { "availableRepos": availableRepos } }
+      );
+    } catch (error) {
+      req.flash(`Error: ${error} 👺`);
+      res.redirect(`/register-org`);
+      res.render('register-org', {
+        body: req.body,
+        flashes: req.flash(),
+      });
+      return;
+    }
+
   }
   res.redirect('/add-issue');
 }
@@ -101,7 +119,7 @@ exports.updateRepos = (req, res) => {
 exports.registerOrg = (req, res) => {
   user.client = github.client(req.body.token);
   user.changeGithubOrg(req.body.orgName);
-  user.githubOrg.repos((err, data, headers) => {
+  user.githubOrg.repos(async (err, data, headers) => {
     if (err) {
       req.flash('error', 'Unable to register your Github Org, please try again. 👺');
       res.redirect('/register-org');
@@ -109,6 +127,23 @@ exports.registerOrg = (req, res) => {
       user.orgCredentials.token = req.body.token;
       user.orgCredentials.orgName = req.body.orgName;
       fs.writeFile('orgCredentials.json', JSON.stringify(user.orgCredentials), 'utf8', function () { });
+
+      try {
+        const orgCredentials = new OrgCredentials({
+          token: req.body.token,
+          orgName: req.body.orgName,
+        });
+        await orgCredentials.save();
+      } catch (error) {
+        req.flash(`Error: ${error} 👺`);
+        res.redirect(`/register-org`);
+        res.render('register-org', {
+          body: req.body,
+          flashes: req.flash(),
+        });
+        return;
+      }
+
       user.handleUserData(data);
       res.redirect('/update-repos');
     }
