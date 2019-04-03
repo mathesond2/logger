@@ -84,11 +84,8 @@ exports.registerUsers = async (req, res, next) => {
 }
 
 exports.updateRepos = (req, res) => {
-  console.log('req.body.repos', req.body.repos);
   let availableRepos = typeof (req.body.repos) === 'object' ? req.body.repos : [req.body.repos];
-  user.orgRepos.forEach((obj, i) => {
-    if (!availableRepos.includes(obj.name)) user.orgRepos.splice(i, 1);
-  });
+  user.orgRepos = user.orgRepos.filter((item) => availableRepos.includes(item.name));
 
   if (user.orgCredentials) {
     if (Object.keys(currentOrgCredentials).length) {
