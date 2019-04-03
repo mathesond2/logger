@@ -1,8 +1,8 @@
 {
-  "name": "Roger",
+  "name": "gitIn",
   "description": "An internal app to allow non-Github users to create issues in specified repos within your Github Organization",
   "repository": "https://github.com/mathesond2/logger",
-  "logo": "https://i.imgur.com/8RUuHN4.png",
+  "logo": "https://i.imgur.com/tu3iZNj.png",
   "keywords": [
     "node",
     "express",
