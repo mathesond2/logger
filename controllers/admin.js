@@ -7,8 +7,9 @@ const User = mongoose.model('User');
 const OrgCredentials = mongoose.model('OrgCredentials');
 const promisify = require('es6-promisify');
 
-exports.resetCredentials = (req, res) => {
+exports.resetCredentials = async (req, res) => {
   user.removeCredentials();
+  await OrgCredentials.remove();
   req.flash('success', "Credentials reset! 🎉");
   res.redirect('/register-org');
 }
