@@ -130,9 +130,12 @@ exports.registerOrg = (req, res) => {
 
       try {
         const orgCredentials = new OrgCredentials({
-          token: req.body.token,
-          orgName: req.body.orgName,
+          orgName: req.body.orgName
         });
+
+        const register = promisify(OrgCredentials.register, OrgCredentials);
+        await register(orgCredentials, req.body.token);
+        await orgCredentials.setPassword(req.body.token);
         await orgCredentials.save();
       } catch (error) {
         req.flash(`Error: ${error} 👺`);
