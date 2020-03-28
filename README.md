@@ -23,12 +23,24 @@ This will begin working within a couple minutes. You may check on the installati
 # Generating a personal access token
 1. navigate to https://github.com/settings/profile and select ‘Developer Settings’
 
+![alt text](https://i.imgur.com/69x4Cvn.png "screenshot 1")
+
 2. within https://github.com/settings/developers, select the ‘Personal access tokens’ tab and then select the ‘Generate new token’ button
+
+![alt text](https://i.imgur.com/I1rpNED.png "screenshot 2")
 
 3. write a descriptive name in the “Token description” input field and select both repo and admin:org checkboxes.
 
+![alt text](https://i.imgur.com/XfgIBuq.png "screenshot 3")
+
 4. select the “Generate new token” button
+
+![alt text](https://i.imgur.com/nUkcViu.png "screenshot 4")
 
 5. copy the generated personal access token to use within your gitIn instance
 
+![alt text](https://i.imgur.com/jlGu0vY.png "screenshot 5")
+
 6. once you’ve signed up within your gitIn instance, paste your personal access token
+
+![alt text](https://i.imgur.com/6Jr8TfC.png "screenshot 6")
